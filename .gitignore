@@ -28,3 +28,7 @@ desktop.ini
 
 # ---------- Logs ----------
 *.log
+
+# ---------- Lecturer's course manuals (Microsoft copyrighted - keep local) ----------
+manuals/pdf/
+manuals/txt/
