@@ -1,0 +1,30 @@
+# ---------- Visual Studio generated files ----------
+.vs/
+*.slnx
+*.suo
+*.user
+
+# ---------- Secrets - NEVER commit these ----------
+.env
+.env.*
+*.env
+secrets.json
+*.pfx
+*.p12
+*.key
+
+# ---------- Database backup / export files ----------
+*.bak
+*.mdf
+*.ldf
+*.ndf
+
+# ---------- Editor / OS noise ----------
+.vscode/
+Thumbs.db
+desktop.ini
+*.tmp
+~$*
+
+# ---------- Logs ----------
+*.log
