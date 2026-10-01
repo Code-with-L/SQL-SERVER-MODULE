@@ -4,18 +4,9 @@
 
 ### *A guided walkthrough of Microsoft SQL Server — administration, tables, snapshots, replication & performance.*
 
-```text
-+--------------------------------------------------------------------------+
-|       .---------------.        $ sqlcmd -S localhost -E                |
-|      /                 \       ----------------------------------      |
-|     |   S Q L  S E R V E R  |  Instance : MSSQLSERVER (default)        |
-|     |      M O D U L E        | Engine   : SQL Server 2025 (17.0)       |
-|      \                 /       Edition  : Enterprise Developer         |
-|       '---------------'        Auth     : Windows Authentication       |
-|       |               |        Collation: SQL_Latin1_General_CP1_CI_AS |
-|        \_____________/                                                 |
-+--------------------------------------------------------------------------+
-```
+<p align="center">
+  <img src="assets/banner.svg" alt="SQL Server Module — animated terminal showing instance details" width="900">
+</p>
 
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2025-CC2927?style=for-the-badge&logo=microsoftsqlserver)
 ![Edition](https://img.shields.io/badge/Edition-Enterprise%20Developer-0F6CBD?style=for-the-badge)
@@ -185,6 +176,8 @@ relationship in every database you will ever meet follows this pattern.
 SQL-SERVER-MODULE/
 ├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk, manuals/
 ├── README.md               # this file
+├── assets/
+│   └── banner.svg          # animated header (self-contained, no JS)
 ├── notes/                  # teaching notes, one per lecturer manual
 │   ├── 01_manual_1_installation.md
 │   ├── 02_manual_2_tables.md
@@ -199,6 +192,27 @@ SQL-SERVER-MODULE/
     ├── 05_replication/     # Part 3  — types, agents, inspection queries
     └── 06_monitoring/      # Part 4  — locks, blocking, deadlocks, isolation
 ```
+
+### About the animated banner
+
+`assets/banner.svg` is hand-written SVG with embedded CSS and SMIL animation —
+no JavaScript, no external services, nothing that phones home.
+
+GitHub strips `<script>` and `<style>` from *markdown*, but it serves `.svg`
+files as real images, and **CSS animations inside an SVG do play** when the SVG
+is embedded with `<img>`. The animations are:
+
+| Element | Animation |
+|---|---|
+| Terminal lines | typewriter reveal, staggered, then loop every 14s |
+| Cursor | blinking |
+| Database cylinder | floating up and down |
+| Dashed ring | rotating |
+| Window dots / status bars | pulsing |
+| Background glow | breathing |
+
+It also honours `prefers-reduced-motion` — if you have "reduce motion" enabled
+in your OS, it renders as a clean static image instead.
 
 ### Two conventions
 
