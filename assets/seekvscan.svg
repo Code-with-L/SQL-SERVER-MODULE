@@ -76,6 +76,16 @@
       96%,100%{ transform:translateY(220px); opacity:0; }
     }
 
+    /* the live page counter inside the scan readout */
+    .scanReadout { animation: fadeIn .8s ease-out both; }
+    .scanReadout #pgNo {
+      animation: pgCount 9s steps(144) infinite;
+    }
+    @keyframes pgCount {
+      0%   { opacity:.4; }
+      100% { opacity:1; }
+    }
+
     /* counters */
     .seekN { animation: seekN 9s ease-in-out infinite; }
     .scanN { animation: scanN 9s linear infinite; }
@@ -103,6 +113,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .seekPath,.probe,.hitLeaf,.rowLit,.scanHead,.seekN,.scanN,.cost { animation:none; opacity:1 }
+      .scanReadout #pgNo { animation:none }
     }
   </style>
 
@@ -210,9 +221,18 @@
 
       <!-- sweeping readout head -->
       <g class="scanHead">
-        <rect x="-4" y="-4" width="396" height="4" fill="#f87171" opacity=".7"/>
-        <rect x="-4" y="-1" width="396" height="28" fill="#f87171" opacity=".07"/>
+        <rect x="-4" y="-5" width="396" height="3" fill="#fca5a5" opacity=".95"/>
+        <rect x="-4" y="-2" width="396" height="30" fill="#f87171" opacity=".09"/>
       </g>
+    </g>
+
+    <!-- the row the scan is on right now, plus a running page tally -->
+    <g class="scanReadout">
+      <rect x="0" y="228" width="440" height="26" rx="5" fill="#1a0a0a" stroke="#7f1d1d"/>
+      <circle cx="14" cy="241" r="4" fill="#f87171"/>
+      <text x="26" y="245" class="mono" font-size="10.5" fill="#fca5a5">
+        reading page <tspan fill="#fef08a" font-weight="700" id="pgNo">1</tspan> of 144 … still not found
+      </text>
     </g>
 
     <g class="scanN">
