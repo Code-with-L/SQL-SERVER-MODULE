@@ -83,9 +83,12 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Windows vs Mixed authentication
 - [ ] Collation in depth & per-column collation
 
+**Scripts:** [`sql/01_databases/`](sql/01_databases) ·
+**Notes:** [Manual 1](notes/01_manual_1_installation.md)
+
 ### Part 2 — Tables & Database Objects `◔`
 - [ ] Data types & the 7 categories
-- [ ] `CREATE TABLE`
+- [ ] `CREATE TABLE` — the six course tables
 - [ ] Permanent tables  ⬅️ **next**
 - [ ] Temporary tables (`#`)
 - [ ] Table variables (`@`)
@@ -95,12 +98,20 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Computed columns (`AS (...)`)
 - [ ] Permissions and `GRANT`
 
+**Scripts:** [`sql/02_tables/`](sql/02_tables) ·
+[`sql/03_security/`](sql/03_security) ·
+**Notes:** [Manual 2](notes/02_manual_2_tables.md)
+
 ### Part 3 — Snapshots & Replication `⬜`
 - [ ] Database snapshots
 - [ ] Copy-on-write behaviour
 - [ ] Creating and reverting snapshots
 - [ ] Snapshot / transactional / merge replication
 - [ ] Replication agents
+
+**Scripts:** [`sql/04_snapshots/`](sql/04_snapshots) ·
+[`sql/05_replication/`](sql/05_replication) ·
+**Notes:** [Manual 3](notes/03_manual_3_snapshots_replication.md)
 
 ### Part 4 — Monitoring & Troubleshooting `⬜`
 - [ ] SQL Server Profiler
@@ -110,6 +121,9 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Deadlocks
 - [ ] Isolation levels
 - [ ] Database Engine Tuning Advisor
+
+**Scripts:** [`sql/06_monitoring/`](sql/06_monitoring) ·
+**Notes:** [Manual 4](notes/04_manual_4_monitoring.md)
 
 ---
 
@@ -169,22 +183,46 @@ relationship in every database you will ever meet follows this pattern.
 
 ```text
 SQL-SERVER-MODULE/
-├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk
-├── README.md
+├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk, manuals/
+├── README.md               # this file
+├── notes/                  # teaching notes, one per lecturer manual
+│   ├── 01_manual_1_installation.md
+│   ├── 02_manual_2_tables.md
+│   ├── 03_manual_3_snapshots_replication.md
+│   ├── 04_manual_4_monitoring.md
+│   └── 05_exercises_and_answers.md
 └── sql/
-    ├── 01_databases/       # Part 1  — CREATE DATABASE, files, filegroups
-    ├── 02_tables/          # Part 2  — CREATE TABLE, data types
-    ├── 03_temp_tables/     # Part 2  — #temp and @table variables
-    ├── 04_security/        # Part 2  — GRANT, permissions, roles
-    ├── 05_snapshots/       # Part 3  — database snapshots
-    ├── 06_replication/     # Part 3  — replication setup
-    └── 07_monitoring/      # Part 4  — Profiler, locks, deadlocks
+    ├── 01_databases/       # Part 1  — CREATE DATABASE, filegroups, instances
+    ├── 02_tables/          # Part 2  — CREATE TABLE, types, IDENTITY, temp tables
+    ├── 03_security/        # Part 2  — GRANT, REVOKE, DENY, roles
+    ├── 04_snapshots/       # Part 3  — create / read / drop database snapshots
+    ├── 05_replication/     # Part 3  — types, agents, inspection queries
+    └── 06_monitoring/      # Part 4  — locks, blocking, deadlocks, isolation
 ```
 
-### Numbering convention
+### Two conventions
 
-Scripts are numbered so they run in order. Filenames are the source of truth —
-`sys.objects` has `create_date`, but only the filename records *intent*.
+**Numbering.** Scripts are numbered so they run in order, and each file is
+self-contained with `USE` / `GO` where needed.
+
+**Read before running.** Every script is heavily commented with the *why*, not
+just the *what*. Scripts that can destroy data are marked `DESTRUCTIVE` at the
+top and again at the offending statement.
+
+### Validating before you run
+
+Every script has been syntax-checked with `SET PARSEONLY ON`, which parses T-SQL
+without executing a single statement:
+
+```sql
+SET PARSEONLY ON;
+GO
+-- then your script
+```
+
+The two files reporting *"database does not exist"* are the ones whose
+verification queries reference a database the script has not created yet — they
+are expected and correct.
 
 ---
 
@@ -218,6 +256,38 @@ git checkout <commit> -- <path>       # restore it to disk
 | `git switch -c <name>` | Create and switch to a branch |
 | `git stash` | Temporarily shelve uncommitted work |
 | `git check-ignore -v <file>` | Show *which* `.gitignore` rule matched |
+
+---
+
+## 🧪 Exercises
+
+**[`notes/05_exercises_and_answers.md`](notes/05_exercises_and_answers.md)** —
+20 exercises across five difficulty levels, from `DB_NAME()` basics to deadlocks
+and lost updates. Answers are in collapsible sections so you cannot see them
+by accident.
+
+```
+🟢 Level 1  Warm-up           — context, system databases, compatibility level
+🟡 Level 2  Data types       — DECIMAL(p,s), NULL, temp table scope
+🟠 Level 3  Constraints      — joins, foreign keys, the junction table
+🔴 Level 4  Troubleshooting  — the diagnostic ladder, deadlocks, isolation
+🔵 Level 5  Snapshots        — copy-on-write, agents, transactional vs merge
+```
+
+---
+
+## 📚 Course Notes
+
+| Manual | Topic | Notes |
+|---|---|---|
+| 1 | Installation, editions, instances, authentication, collation | [Open](notes/01_manual_1_installation.md) |
+| 2 | Tables, data types, temp tables, permissions, `GRANT` | [Open](notes/02_manual_2_tables.md) |
+| 3 | Database snapshots and replication | [Open](notes/03_manual_3_snapshots_replication.md) |
+| 4 | Profiler, locking, deadlocks, isolation levels | [Open](notes/04_manual_4_monitoring.md) |
+
+Each note file is written **from the lecturer manual's own outline**, with the
+manuals' terminology, plus the 2005 → 2025 differences called out where they
+matter.
 
 ---
 
