@@ -100,6 +100,10 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Snapshot / transactional / merge replication
 - [ ] Replication agents
 
+<p align="center">
+  <img src="assets/copyonwrite.svg" alt="Animated copy-on-write: the snapshot starts at 8 MB and grows only as the source database's pages change" width="100%">
+</p>
+
 **Scripts:** [`sql/04_snapshots/`](sql/04_snapshots) ·
 [`sql/05_replication/`](sql/05_replication) ·
 **Notes:** [Manual 3](notes/03_manual_3_snapshots_replication.md)
@@ -112,6 +116,14 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Deadlocks
 - [ ] Isolation levels
 - [ ] Database Engine Tuning Advisor
+
+<p align="center">
+  <img src="assets/deadlock.svg" alt="Animated deadlock: two transactions each hold a lock the other needs, forming a cycle, then SQL Server rolls back the cheaper transaction as victim" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/isolation.svg" alt="Animated isolation level matrix: how each of the five levels handles dirty reads, non-repeatable reads, phantoms, lost updates and blocking" width="100%">
+</p>
 
 **Scripts:** [`sql/06_monitoring/`](sql/06_monitoring) ·
 **Notes:** [Manual 4](notes/04_manual_4_monitoring.md)
@@ -152,11 +164,14 @@ relationship in every database you will ever meet follows this pattern.
 SQL-SERVER-MODULE/
 ├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk, manuals/
 ├── README.md               # this file
-├── assets/
+├── assets/                # 7 hand-written animated SVGs (no JS, no GIFs)
 │   ├── banner.svg         # animated terminal header
 │   ├── schema.svg         # animated ER diagram
 │   ├── codeeditor.svg     # animated CREATE TABLE typing
-│   └── gitlog.svg         # animated git log + recovery
+│   ├── gitlog.svg         # animated git log + recovery
+│   ├── copyonwrite.svg    # animated snapshot copy-on-write
+│   ├── deadlock.svg       # animated deadlock cycle + victim
+│   └── isolation.svg      # animated isolation level matrix
 ├── notes/                  # teaching notes, one per lecturer manual
 │   ├── 01_manual_1_installation.md
 │   ├── 02_manual_2_tables.md
@@ -178,15 +193,22 @@ All four graphics in this README are hand-written SVG with embedded CSS and SMIL
 animation. **No JavaScript, no GIFs, no external services, nothing that phones
 home.**
 
-| Asset | What it shows |
-|---|---|
-| [`assets/banner.svg`](assets/banner.svg) | Terminal typing your live instance details, blinking cursor, floating database cylinder |
-| [`assets/schema.svg`](assets/schema.svg) | The six-table ER diagram — boxes pop in, FK lines draw themselves, packets travel along them |
-| [`assets/codeeditor.svg`](assets/codeeditor.svg) | An editor typing the lecturer's actual `CREATE TABLE dbo.Country`, with a moving caret and a success toast |
-| [`assets/gitlog.svg`](assets/gitlog.svg) | `git log --graph` scrolling, then recovering your deleted `SALES.sql` from history |
+| Asset | What it shows | Animations |
+|---|---|---|
+| [`banner.svg`](assets/banner.svg) | Terminal typing your live instance details | typewriter reveal, blinking caret, floating cylinder, rotating ring, pulsing dots |
+| [`schema.svg`](assets/schema.svg) | The six-table ER diagram | boxes spring in, FK lines draw themselves, packets travel along them, junction table breathes |
+| [`codeeditor.svg`](assets/codeeditor.svg) | Editor typing `CREATE TABLE dbo.Country` | line-by-line typewriter, caret tracks each line, minimap viewport slides, success toast pops |
+| [`gitlog.svg`](assets/gitlog.svg) | `git log --graph`, then recovering `SALES.sql` | commits slide up the spine, dashed spine marches, glow breathes |
+| [`copyonwrite.svg`](assets/copyonwrite.svg) | Why a 400 GB snapshot takes one second | changed pages flash red and get copied, snapshot grid fills in, size counters tick 8 MB → 1.4 GB, clock spins |
+| [`deadlock.svg`](assets/deadlock.svg) | Two transactions forming a cycle | locks grab in sequence, wait states appear, cycle arcs draw, badge spins, victim struck out, `Msg 1205` slides in |
+| [`isolation.svg`](assets/isolation.svg) | The five isolation levels vs four anomalies | highlight slides across rows in sync with the master clock, callouts cross-fade, caret blinks |
 
 <p align="center">
   <img src="assets/codeeditor.svg" alt="Animated code editor typing CREATE TABLE dbo.Country" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/deadlock.svg" alt="Animated deadlock formation and victim selection" width="100%">
 </p>
 
 ### Why inline SVG and not CSS in the markdown?

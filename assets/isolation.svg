@@ -1,0 +1,285 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="100%"
+     height="500" role="img"
+     aria-label="Animated isolation levels: three transactions and the locks they take under each isolation level">
+
+  <defs>
+    <linearGradient id="ilBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#060d14"/>
+      <stop offset="100%" stop-color="#0b0f18"/>
+    </linearGradient>
+    <linearGradient id="tabBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </linearGradient>
+    <marker id="ilArrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <style>
+    .mono { font-family:'Cascadia Mono','JetBrains Mono',Consolas,'DejaVu Sans Mono',monospace; }
+    .head { fill:#e2e8f0; font-size:16px; font-weight:700; }
+    .sub  { fill:#7c8595; font-size:11.5px; }
+    .rowL { fill:#cbd5e1; font-size:12.5px; font-weight:600; }
+    .rowD { fill:#7c8595; font-size:11px; }
+    .colH { fill:#94a3b8; font-size:11px; font-weight:700; letter-spacing:.5px; }
+
+    /* active tab highlight moves across the row */
+    .tabHighlight {
+      animation: tabSlide 22s cubic-bezier(.45,0,.55,1) infinite;
+    }
+    @keyframes tabSlide {
+      0%,4%   { transform:translateX(0); }
+      20%,24% { transform:translateX(0); }
+      24%,44% { transform:translateX(150px); }
+      44%,64% { transform:translateX(300px); }
+      64%,84% { transform:translateX(450px); }
+      84%,100%{ transform:translateX(600px); }
+    }
+    .activeLevel { animation: fadeLevel 22s ease-in-out infinite; }
+    @keyframes fadeLevel {
+      0%,3%   { opacity:.28; }
+      6%,19%  { opacity:1; }
+      23%,100%{ opacity:.28; }
+    }
+    .lv1 { animation-delay:0s; }
+    .lv2 { animation-delay:4.4s; }
+    .lv3 { animation-delay:8.8s; }
+    .lv4 { animation-delay:13.2s; }
+    .lv5 { animation-delay:17.6s; }
+
+    /* lock behaviour per column, relative to the 22s master clock */
+    .lk-shared  { animation: lkShared 22s linear infinite; }
+    .lk-retain  { animation: lkRetain 22s linear infinite; }
+    .lk-excl    { animation: lkExcl 22s linear infinite; }
+    .lk-none    { animation: lkNone 22s linear infinite; }
+
+    @keyframes lkShared { 0%,5%{opacity:1} 7%,100%{opacity:.2} }
+    @keyframes lkRetain { 0%,5%{opacity:1} 92%,100%{opacity:1} }
+    @keyframes lkExcl   { 0%,5%{opacity:1} 92%,100%{opacity:1} }
+    @keyframes lkNone   { 0%,5%{opacity:.18} 92%,100%{opacity:.18} }
+
+    /* the reader-conflict callout */
+    .conflict { animation: conflict 22s ease-in-out infinite; }
+    @keyframes conflict {
+      0%,4%   { opacity:0; }
+      8%,18%  { opacity:1; }
+      22%,100%{ opacity:0; }
+    }
+    .clean { animation: clean 22s ease-in-out infinite; }
+    @keyframes clean {
+      0%,24%  { opacity:0; }
+      30%,84% { opacity:1; }
+      90%,100%{ opacity:0; }
+    }
+
+    /* the serializable range lock */
+    .range { animation: range 22s ease-in-out infinite; }
+    @keyframes range {
+      0%,14%  { opacity:0; }
+      17%,42% { opacity:1; }
+      46%,100%{ opacity:0; }
+    }
+
+    .caret { animation: blink 1s steps(1,end) infinite; }
+    @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tabHighlight,.activeLevel,.lk-shared,.lk-retain,.lk-excl,.lk-none,
+      .conflict,.clean,.range,.caret { animation:none; opacity:1 }
+    }
+  </style>
+
+  <rect width="960" height="500" fill="url(#ilBg)"/>
+
+  <text x="26" y="34" class="mono head">ISOLATION LEVELS — what each one lets through</text>
+  <text x="26" y="54" class="mono sub">
+    Two writers race on the same row. Each column shows what your session is allowed to do.
+  </text>
+
+  <!-- ============ the contested data grid ============ -->
+  <g transform="translate(26,86)">
+    <text x="0" y="0" class="mono colH">SESSION A</text>
+    <text x="0" y="18" class="mono colH">SESSION B</text>
+
+    <text x="100" y="0" class="mono" font-size="11" fill="#38bdf8">1. READ row 5 → 'Kenya'</text>
+    <text x="100" y="18" class="mono" font-size="11" fill="#f472b6">1. UPDATE row 5 → 'KENYA'</text>
+
+    <rect x="100" y="30" width="700" height="26" rx="4" fill="#0b1a2a"
+          stroke="#1e3a5f" stroke-dasharray="3 3"/>
+
+    <text x="112" y="48" class="mono" font-size="11.5" fill="#94a3b8">
+      <tspan fill="#38bdf8">A reads</tspan> · <tspan fill="#f472b6">B writes</tspan>
+      · then A reads again →
+    </text>
+
+    <!-- sliding active-level indicator behind the text -->
+    <rect class="tabHighlight" x="100" y="62" width="140" height="24" rx="5"
+          fill="#1d4ed8" opacity=".22"/>
+  </g>
+
+  <!-- ============ level columns ============ -->
+  <g transform="translate(26,190)">
+    <!-- column headers -->
+    <g class="mono" font-size="10.5" text-anchor="middle">
+      <text x="70"  y="0" fill="#f87171">READ</text>
+      <text x="70"  y="13" fill="#f87171">UNCOMMITTED</text>
+      <text x="220" y="0" fill="#fbbf24">READ</text>
+      <text x="220" y="13" fill="#fbbf24">COMMITTED</text>
+      <text x="370" y="0" fill="#a3e635">REPEATABLE</text>
+      <text x="370" y="13" fill="#a3e635">READ</text>
+      <text x="520" y="0" fill="#fb923c">SERIALIZABLE</text>
+      <text x="670" y="0" fill="#a78bfa">SNAPSHOT</text>
+      <text x="670" y="13" fill="#a78bfa">(RCSI)</text>
+    </g>
+
+    <!-- ===== ROW 1: dirty read ===== -->
+    <g class="activeLevel lv1">
+      <rect x="0" y="26" width="740" height="40" rx="6" fill="#2a0a0a" opacity=".5"/>
+      <text x="8" y="42" class="mono rowL">DIRTY READ</text>
+      <text x="8" y="58" class="mono rowD">sees uncommitted data</text>
+      <!-- RU column -->
+      <rect x="40"  y="34" width="60" height="24" rx="4" class="lk-shared" fill="#78350f"/>
+      <text x="70"  y="51" class="mono" font-size="11" fill="#fde68a" text-anchor="middle">ALLOWED</text>
+      <!-- blocked in the safe levels -->
+      <rect x="190" y="34" width="60" height="24" rx="4" fill="#1f2937" stroke="#374151"/>
+      <text x="220" y="51" class="mono" font-size="11" fill="#6b7280" text-anchor="middle">✕</text>
+      <rect x="340" y="34" width="60" height="24" rx="4" fill="#1f2937" stroke="#374151"/>
+      <text x="370" y="51" class="mono" font-size="11" fill="#6b7280" text-anchor="middle">✕</text>
+      <rect x="490" y="34" width="60" height="24" rx="4" fill="#1f2937" stroke="#374151"/>
+      <text x="520" y="51" class="mono" font-size="11" fill="#6b7280" text-anchor="middle">✕</text>
+      <rect x="640" y="34" width="60" height="24" rx="4" fill="#1f2937" stroke="#374151"/>
+      <text x="670" y="51" class="mono" font-size="11" fill="#6b7280" text-anchor="middle">✕</text>
+    </g>
+
+    <!-- ===== ROW 2: non-repeatable read ===== -->
+    <g class="activeLevel lv2">
+      <rect x="0" y="74" width="740" height="40" rx="6" fill="#2a1a0a" opacity=".45"/>
+      <text x="8" y="90" class="mono rowL">NON-REPEATABLE</text>
+      <text x="8" y="106" class="mono rowD">same row, 2 values</text>
+      <rect x="40"  y="82" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="70"  y="99" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+      <rect x="190" y="82" width="60" height="24" rx="4" fill="#78350f"/>
+      <text x="220" y="99" class="mono" font-size="11" fill="#fde68a" text-anchor="middle">✕</text>
+      <rect x="340" y="82" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="370" y="99" class="mono" font-size="11" fill="#86efac" text-anchor="middle">✓</text>
+      <rect x="490" y="82" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="520" y="99" class="mono" font-size="11" fill="#86efac" text-anchor="middle">✓</text>
+      <rect x="640" y="82" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="670" y="99" class="mono" font-size="11" fill="#86efac" text-anchor="middle">✓</text>
+    </g>
+
+    <!-- ===== ROW 3: phantom ===== -->
+    <g class="activeLevel lv3">
+      <rect x="0" y="122" width="740" height="40" rx="6" fill="#1a1030" opacity=".45"/>
+      <text x="8" y="138" class="mono rowL">PHANTOM</text>
+      <text x="8" y="154" class="mono rowD">row count changes</text>
+      <rect x="40"  y="130" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="70"  y="147" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+      <rect x="190" y="130" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="220" y="147" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+      <rect x="340" y="130" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="370" y="147" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕*</text>
+      <rect x="490" y="130" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="520" y="147" class="mono" font-size="11" fill="#86efac" text-anchor="middle">✓</text>
+      <rect x="640" y="130" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="670" y="147" class="mono" font-size="11" fill="#86efac" text-anchor="middle">✓</text>
+    </g>
+
+    <!-- ===== ROW 4: lost update ===== -->
+    <g class="activeLevel lv4">
+      <rect x="0" y="170" width="740" height="40" rx="6" fill="#2a0a14" opacity=".45"/>
+      <text x="8" y="186" class="mono rowL">LOST UPDATE</text>
+      <text x="8" y="202" class="mono rowD">one write vanishes</text>
+      <rect x="40"  y="178" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="70"  y="195" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+      <rect x="190" y="178" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="220" y="195" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+      <rect x="340" y="178" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="370" y="195" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+      <rect x="490" y="178" width="60" height="24" rx="4" fill="#3f1d0a" stroke="#78350f"/>
+      <text x="520" y="195" class="mono" font-size="11" fill="#fdba74" text-anchor="middle">~</text>
+      <rect x="640" y="178" width="60" height="24" rx="4" fill="#2a0a0a" stroke="#7f1d1d"/>
+      <text x="670" y="195" class="mono" font-size="11" fill="#fca5a5" text-anchor="middle">✕</text>
+    </g>
+
+    <!-- ===== ROW 5: blocking ===== -->
+    <g class="activeLevel lv5">
+      <rect x="0" y="218" width="740" height="40" rx="6" fill="#0f1a2a" opacity=".45"/>
+      <text x="8" y="234" class="mono rowL">BLOCKING</text>
+      <text x="8" y="250" class="mono rowD">reader waits on writer</text>
+      <rect x="40"  y="226" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="70"  y="243" class="mono" font-size="11" fill="#86efac" text-anchor="middle">none</text>
+      <rect x="190" y="226" width="60" height="24" rx="4" fill="#78350f"/>
+      <text x="220" y="243" class="mono" font-size="11" fill="#fde68a" text-anchor="middle">brief</text>
+      <rect x="340" y="226" width="60" height="24" rx="4" fill="#7f1d1d"/>
+      <text x="370" y="243" class="mono" font-size="11" fill="#fecaca" text-anchor="middle">HIGH</text>
+      <rect x="490" y="226" width="60" height="24" rx="4" fill="#7f1d1d"/>
+      <text x="520" y="243" class="mono" font-size="11" fill="#fecaca" text-anchor="middle">MAX</text>
+      <rect x="640" y="226" width="60" height="24" rx="4" fill="#14532d" stroke="#166534"/>
+      <text x="670" y="243" class="mono" font-size="11" fill="#86efac" text-anchor="middle">none</text>
+    </g>
+  </g>
+
+  <!-- ============ lock duration bar ============ -->
+  <g transform="translate(26,452)">
+    <text x="0" y="0" class="mono" font-size="10.5" fill="#64748b">LOCKS HELD UNTIL</text>
+    <g transform="translate(140,-8)">
+      <rect x="0"   y="0" width="120" height="14" rx="3" fill="#1e40af"/>
+      <text x="60"  y="10" class="mono" font-size="9" fill="#c7d2fe" text-anchor="middle">stmt</text>
+      <rect x="120" y="0" width="120" height="14" fill="#1e40af"/>
+      <text x="180" y="10" class="mono" font-size="9" fill="#c7d2fe" text-anchor="middle">stmt</text>
+      <rect x="240" y="0" width="120" height="14" fill="#3730a3"/>
+      <text x="300" y="10" class="mono" font-size="9" fill="#c7d2fe" text-anchor="middle">txn</text>
+      <rect x="360" y="0" width="120" height="14" fill="#3730a3"/>
+      <text x="420" y="10" class="mono" font-size="9" fill="#c7d2fe" text-anchor="middle">txn</text>
+      <rect x="480" y="0" width="120" height="14" fill="#581c87"/>
+      <text x="540" y="10" class="mono" font-size="9" fill="#e9d5ff" text-anchor="middle">txn+range</text>
+      <rect x="600" y="0" width="120" height="14" rx="3" fill="#166534"/>
+      <text x="660" y="10" class="mono" font-size="9" fill="#bbf7d0" text-anchor="middle">none</text>
+    </g>
+  </g>
+
+  <!-- ============ the asterisk footnote ============ -->
+  <text x="800" y="330" class="mono" font-size="10" fill="#7c8595">✕* not truly</text>
+  <text x="800" y="344" class="mono" font-size="10" fill="#7c8595">enforced for</text>
+  <text x="800" y="358" class="mono" font-size="10" fill="#7c8595">unmodified rows</text>
+
+  <!-- ============ the practical takeaway ============ -->
+  <g class="clean" transform="translate(700,384)">
+    <rect x="0" y="0" width="234" height="86" rx="8" fill="#0b1a12" stroke="#166534"/>
+    <text x="14" y="22" class="mono" font-size="11" font-weight="700" fill="#86efac">
+      RCSI is usually the
+    </text>
+    <text x="14" y="38" class="mono" font-size="11" font-weight="700" fill="#86efac">
+      right first move.
+    </text>
+    <text x="14" y="58" class="mono" font-size="10" fill="#4ade80">
+      No code changes, no</text>
+    <text x="14" y="72" class="mono" font-size="10" fill="#4ade80">
+      read locks at all.
+    </text>
+  </g>
+
+  <g class="conflict" transform="translate(700,384)">
+    <rect x="0" y="0" width="234" height="86" rx="8" fill="#2a0a0a" stroke="#7f1d1d"/>
+    <text x="14" y="22" class="mono" font-size="11" font-weight="700" fill="#fca5a5">
+      READ UNCOMMITTED
+    </text>
+    <text x="14" y="38" class="mono" font-size="11" font-weight="700" fill="#fca5a5">
+      never blocks.
+    </text>
+    <text x="14" y="58" class="mono" font-size="10" fill="#ef8a8a">
+      And may return a value</text>
+    <text x="14" y="72" class="mono" font-size="10" fill="#ef8a8a">
+      that never existed.
+    </text>
+  </g>
+
+  <rect x="26" y="482" width="9" height="14" class="caret" fill="#38bdf8"/>
+  <text x="44" y="493" class="mono" font-size="10.5" fill="#475569">
+    isolation level = your point on the line between consistency and concurrency
+  </text>
+</svg>

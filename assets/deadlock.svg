@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 600" width="100%"
+     height="600" role="img"
+     aria-label="Animated deadlock: two transactions each holding a lock the other needs, then SQL Server chooses a victim">
+
+  <defs>
+    <linearGradient id="dBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#0a0713"/>
+      <stop offset="100%" stop-color="#0d0a16"/>
+    </linearGradient>
+    <linearGradient id="txA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="txB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#be185d"/>
+    </linearGradient>
+    <linearGradient id="lockHeld" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <marker id="arwRed" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arwAmb" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#fbbf24"/>
+    </marker>
+    <filter id="redGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    .mono { font-family:'Cascadia Mono','JetBrains Mono',Consolas,'DejaVu Sans Mono',monospace; }
+
+    .head  { fill:#e2e8f0; font-size:16px; font-weight:700; }
+    .sub   { fill:#7c8595; font-size:11.5px; }
+    .tbl   { fill:#e6edf3; font-size:13px; }
+    .col   { fill:#94a3b8; font-size:12px; }
+    .pk    { fill:#fbbf24; font-size:12px; font-weight:700; }
+    .lblA  { fill:#7dd3fc; font-size:12px; font-weight:600; }
+    .lblB  { fill:#f9a8d4; font-size:12px; font-weight:600; }
+    .step  { fill:#64748b; font-size:11px; }
+
+    /* one master clock drives everything: 16s loop */
+    .lockA1 { animation: grab 16s ease-in-out infinite; }
+    .lockB1 { animation: grab 16s ease-in-out infinite; animation-delay:.9s; }
+    .waitA  { animation: wait 16s linear infinite; }
+    .waitB  { animation: wait 16s linear infinite; animation-delay:.9s; }
+
+    @keyframes grab {
+      0%,2%   { opacity:.15; transform:scale(.86); }
+      5%      { opacity:1;   transform:scale(1); }
+      100%    { opacity:1;   transform:scale(1); }
+    }
+    @keyframes wait {
+      0%,3.5% { opacity:.12; }
+      6%      { opacity:1; }
+      6%,30%  { opacity:1; }
+      31%,100%{ opacity:.12; }
+    }
+
+    /* the cycle: two arcs drawn after both holds exist */
+    .cycle {
+      stroke-dasharray: 640; stroke-dashoffset: 640;
+      animation: draw 16s ease-out infinite;
+    }
+    @keyframes draw {
+      0%,4%  { stroke-dashoffset:640; opacity:0; }
+      8%     { opacity:1; }
+      11%    { stroke-dashoffset:0; }
+      92%    { stroke-dashoffset:0; opacity:1; }
+      96%,100%{ stroke-dashoffset:640; opacity:0; }
+    }
+
+    /* victim selection */
+    .victim { animation: victim 16s ease-in-out infinite; }
+    @keyframes victim {
+      0%,32%  { opacity:0; transform:scale(.8); }
+      35%     { opacity:1; transform:scale(1); }
+      37%     { transform:scale(1.04); }
+      39%     { transform:scale(1); }
+      88%     { opacity:1; }
+      93%,100%{ opacity:0; transform:scale(.8); }
+    }
+    .survivor { animation: survivor 16s linear infinite; }
+    @keyframes survivor {
+      0%,32%  { opacity:.28; }
+      36%     { opacity:.28; }
+      40%     { opacity:1; }
+      90%     { opacity:1; }
+      94%,100%{ opacity:.28; }
+    }
+
+    /* the Msg 1205 banner */
+    .msg { animation: msg 16s ease-in-out infinite; }
+    @keyframes msg {
+      0%,33%  { opacity:0; transform:translate(-50%,14px); }
+      36%     { opacity:1; transform:translate(-50%,0); }
+      90%     { opacity:1; transform:translate(-50%,0); }
+      95%,100%{ opacity:0; transform:translate(-50%,14px); }
+    }
+
+    .spin { animation: spin 2.6s linear infinite; transform-origin:490px 500px; }
+    @keyframes spin { to { transform:rotate(360deg) } }
+
+    .tick  { animation: fadeUp 16s ease-out infinite; }
+    @keyframes fadeUp {
+      0%,3%  { opacity:0; transform:translateY(6px); }
+      6%,93% { opacity:1; transform:none; }
+      98%,100%{ opacity:0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lockA1,.lockB1,.waitA,.waitB,.cycle,.victim,.survivor,.msg,.spin,.tick {
+        animation:none; opacity:1;
+      }
+    }
+  </style>
+
+  <rect width="980" height="600" fill="url(#dBg)"/>
+
+  <text x="26" y="34" class="mono head">DEADLOCK — how a cycle forms, and who SQL Server sacrifices</text>
+  <text x="26" y="54" class="mono sub">Msg 1205. Both transactions hold what the other needs. Neither will ever yield.</text>
+
+  <!-- ============ two tables in the middle ============ -->
+  <g>
+    <rect x="378" y="96" width="230" height="104" rx="9" fill="#111827" stroke="#334155"/>
+    <rect x="378" y="96" width="230" height="26" rx="9" fill="#1e293b"/>
+    <rect x="378" y="113" width="230" height="9" fill="#1e293b"/>
+    <text x="392" y="114" class="mono tbl">dbo.Country</text>
+    <text x="392" y="146" class="mono pk">PK  CountryID = 1</text>
+    <text x="392" y="170" class="mono col">    Country   'Kenya'</text>
+    <text x="392" y="188" class="mono step">the contested row</text>
+  </g>
+
+  <g>
+    <rect x="378" y="382" width="230" height="104" rx="9" fill="#111827" stroke="#334155"/>
+    <rect x="378" y="382" width="230" height="26" rx="9" fill="#1e293b"/>
+    <rect x="378" y="399" width="230" height="9" fill="#1e293b"/>
+    <text x="392" y="400" class="mono tbl">dbo.StateProvince</text>
+    <text x="392" y="432" class="mono pk">PK  StateProvinceID = 1</text>
+    <text x="392" y="456" class="mono col">    StateProvince  'Nairobi'</text>
+    <text x="392" y="474" class="mono step">the contested row</text>
+  </g>
+
+  <!-- ============ transaction A (left) ============ -->
+  <g>
+    <rect x="26" y="96" width="310" height="150" rx="10" fill="#0c1a26" stroke="#0e7490"/>
+    <rect x="26" y="96" width="310" height="28" rx="10" fill="url(#txA)"/>
+    <rect x="26" y="114" width="310" height="10" fill="url(#txA)"/>
+    <text x="42" y="115" class="mono" font-size="12.5" font-weight="700" fill="#04212e">
+      SESSION 51  ·  TRANSACTION A
+    </text>
+
+    <text x="42" y="146" class="mono lblA">1.  UPDATE Country</text>
+    <text x="56" y="163" class="mono col">SET Country='KENYA' WHERE CountryID=1</text>
+    <text x="42" y="186" class="mono lblA">2.  UPDATE StateProvince</text>
+    <text x="56" y="203" class="mono col">SET StateProvince='NBO' WHERE ID=1</text>
+
+    <g class="lockA1">
+      <rect x="42" y="212" width="180" height="20" rx="4" fill="#0b3a1f" stroke="#22c55e"/>
+      <text x="52" y="226" class="mono" font-size="11" fill="#4ade80">✓ holds X lock on Country</text>
+    </g>
+
+    <g class="waitA">
+      <rect x="42" y="232" width="196" height="20" rx="4" fill="#3b0d12" stroke="#ef4444"/>
+      <text x="52" y="246" class="mono" font-size="11" fill="#fca5a5">⏳ WAITING on StateProvince</text>
+    </g>
+  </g>
+
+  <!-- ============ transaction B (right) ============ -->
+  <g>
+    <rect x="644" y="352" width="310" height="150" rx="10" fill="#1a0c17" stroke="#9d174d"/>
+    <rect x="644" y="352" width="310" height="28" rx="10" fill="url(#txB)"/>
+    <rect x="644" y="370" width="310" height="10" fill="url(#txB)"/>
+    <text x="660" y="371" class="mono" font-size="12.5" font-weight="700" fill="#2b0512">
+      SESSION 62  ·  TRANSACTION B
+    </text>
+
+    <text x="660" y="402" class="mono lblB">1.  UPDATE StateProvince</text>
+    <text x="674" y="419" class="mono col">SET StateProvince='NRB' WHERE ID=1</text>
+    <text x="660" y="442" class="mono lblB">2.  UPDATE Country</text>
+    <text x="674" y="459" class="mono col">SET Country='KENY' WHERE CountryID=1</text>
+
+    <g class="lockB1">
+      <rect x="660" y="468" width="196" height="20" rx="4" fill="#0b3a1f" stroke="#22c55e"/>
+      <text x="670" y="482" class="mono" font-size="11" fill="#4ade80">✓ holds X lock on StateProvince</text>
+    </g>
+
+    <g class="waitB">
+      <rect x="660" y="488" width="180" height="20" rx="4" fill="#3b0d12" stroke="#ef4444"/>
+      <text x="670" y="502" class="mono" font-size="11" fill="#fca5a5">⏳ WAITING on Country</text>
+    </g>
+  </g>
+
+  <!-- ============ the cycle ============ -->
+  <path class="cycle" d="M336 168 C 366 168, 360 178, 378 178"
+        fill="none" stroke="#22c55e" stroke-width="3" marker-end="url(#arwAmb)"/>
+  <path class="cycle" d="M336 240 C 300 240, 300 300, 300 300 L 300 420"
+        fill="none" stroke="#ef4444" stroke-width="3"
+        stroke-dasharray="7 6" filter="url(#redGlow)"/>
+
+  <path class="cycle" d="M644 424 C 616 424, 620 414, 608 414"
+        fill="none" stroke="#22c55e" marker-end="url(#arwAmb)"/>
+  <path class="cycle" d="M644 496 C 700 496, 720 560, 700 560
+                       C 640 560, 560 560, 490 540
+                       C 470 532, 470 500, 470 490"
+        fill="none" stroke="#ef4444" stroke-width="3"
+        stroke-dasharray="7 6" filter="url(#redGlow)"/>
+
+  <!-- cycle badge -->
+  <g class="tick" transform="translate(300,290)">
+    <circle cx="0" cy="0" r="26" fill="#1a0f0f" stroke="#ef4444" stroke-width="2"/>
+    <text x="0" y="-3" class="mono" font-size="10.5" fill="#fca5a5" text-anchor="middle">CYCLE</text>
+    <text x="0" y="11" class="mono" font-size="10.5" fill="#ef4444" text-anchor="middle">DETECTED</text>
+    <circle r="30" fill="none" stroke="#ef4444" stroke-width="1"
+            stroke-dasharray="3 8" class="spin"/>
+  </g>
+
+  <!-- victim / survivor markers -->
+  <g class="victim">
+    <rect x="26" y="258" width="310" height="34" rx="7" fill="#3b0d12" stroke="#ef4444" stroke-width="2"/>
+    <text x="42" y="272" class="mono" font-size="11.5" font-weight="700" fill="#fca5a5">✖ VICTIM — rolled back</text>
+    <text x="42" y="286" class="mono" font-size="10.5" fill="#ef8a8a">
+      chosen by lowest rollback cost
+    </text>
+  </g>
+
+  <g class="survivor">
+    <rect x="644" y="514" width="310" height="30" rx="7" fill="#0b3a1f" stroke="#22c55e"/>
+    <text x="660" y="534" class="mono" font-size="11.5" font-weight="700" fill="#86efac">
+      ✓ SURVIVOR — continues and commits
+    </text>
+  </g>
+
+  <!-- ============ Msg 1205 ============ -->
+  <g class="msg" transform="translate(490,500)">
+    <rect x="-296" y="-30" width="592" height="60" rx="9" fill="#2a0a0e" stroke="#ef4444" stroke-width="1.8"/>
+    <circle cx="-262" cy="0" r="13" fill="#ef4444"/>
+    <text x="-262" y="5" class="mono" font-size="15" font-weight="700" fill="#fff"
+          text-anchor="middle">!</text>
+    <text x="-238" y="-6" class="mono" font-size="12" fill="#fecaca" font-weight="700">
+      Msg 1205  —  Deadlock detected. Transaction chosen as victim.
+    </text>
+    <text x="-238" y="13" class="mono" font-size="11" fill="#fca5a5">
+      "Execute the transaction again."  ← your application MUST retry
+    </text>
+  </g>
+
+  <!-- ============ footer: prevention ============ -->
+  <g class="tick" transform="translate(26,516)">
+    <rect x="0" y="0" width="440" height="70" rx="8" fill="#0d1420" stroke="#1e3a5f"/>
+    <text x="16" y="22" class="mono" font-size="11.5" font-weight="700" fill="#7dd3fc">
+      THE REAL FIX — not retries
+    </text>
+    <text x="16" y="40" class="mono" font-size="11" fill="#94a3b8">
+      Always touch tables in the SAME order.
+    </text>
+    <text x="16" y="58" class="mono" font-size="11" fill="#64748b">
+      Country before StateProvince, everywhere. No cycle forms.
+    </text>
+  </g>
+
+  <!-- footer bar -->
+  <text x="26" y="586" class="mono tick" font-size="11" fill="#475569">
+    blocking · timeout · deadlock — three different failures, three different errors
+  </text>
+</svg>
