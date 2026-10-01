@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="100%"
+     height="430" role="img" aria-label="Animated terminal showing the commit history of this repository">
+  <defs>
+    <linearGradient id="tBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#05070d"/>
+      <stop offset="100%" stop-color="#0a0e18"/>
+    </linearGradient>
+    <linearGradient id="tBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <radialGradient id="tGlow">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <style>
+    .mono { font-family:'Cascadia Mono','JetBrains Mono',Consolas,'DejaVu Sans Mono',monospace; }
+    .hash { fill:#7d8590; }
+    .msg  { fill:#e6edf3; }
+    .auth { fill:#4d5566; font-style:italic; }
+    .ptr  { fill:#f0883e; }
+    .br   { fill:#2ea043; }
+
+    /* commits scroll in one at a time, bottom-up like real git output */
+    .c1 { animation: slide 15s cubic-bezier(.22,1,.36,1) infinite; }
+    .c2 { animation: slide 15s cubic-bezier(.22,1,.36,1) 1.1s infinite; }
+    .c3 { animation: slide 15s cubic-bezier(.22,1,.36,1) 2.2s infinite; }
+    .c4 { animation: slide 15s cubic-bezier(.22,1,.36,1) 3.3s infinite; }
+    .c5 { animation: slide 15s cubic-bezier(.22,1,.36,1) 4.4s infinite; }
+    .c6 { animation: slide 15s cubic-bezier(.22,1,.36,1) 5.5s infinite; }
+    @keyframes slide {
+      0%   { opacity:0; transform:translateY(16px) scale(.985); }
+      6%   { opacity:1; transform:none; }
+      92%  { opacity:1; transform:none; }
+      100% { opacity:0; transform:translateY(-16px) scale(.985); }
+    }
+
+    /* graph spine */
+    .spine {
+      stroke-dasharray:10 7;
+      animation: march 1.4s linear infinite, spineFade 15s linear infinite;
+    }
+    @keyframes march    { to { stroke-dashoffset:-34 } }
+    @keyframes spineFade{ 0%{opacity:0} 8%{opacity:.9} 90%{opacity:.9} 100%{opacity:0} }
+
+    .node { animation: nodePop .5s cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes nodePop { from{opacity:0; transform:scale(0)} to{opacity:1; transform:scale(1)} }
+
+    .prompt { animation: blink 1.1s steps(1,end) infinite; }
+    @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+    .sweep { animation: sweep 6s ease-in-out infinite; }
+    @keyframes sweep { 0%,100%{opacity:.06} 50%{opacity:.30} }
+
+    .title { animation: fade .8s ease-out both; }
+    @keyframes fade { from{opacity:0} to{opacity:1} }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spine,.prompt,.sweep { animation:none; }
+    }
+  </style>
+
+  <rect width="880" height="430" rx="11" fill="url(#tBg)" stroke="#1f2430"/>
+  <ellipse cx="440" cy="200" rx="380" ry="190" fill="url(#tGlow)" class="sweep"/>
+
+  <rect width="880" height="34" rx="11" fill="url(#tBar)"/>
+  <rect y="22" width="880" height="12" fill="url(#tBar)"/>
+  <circle cx="22" cy="17" r="5.5" fill="#ff5f57" opacity=".85"/>
+  <circle cx="40" cy="17" r="5.5" fill="#febc2e" opacity=".85"/>
+  <circle cx="58" cy="17" r="5.5" fill="#28c840" opacity=".85"/>
+  <text x="440" y="22" class="mono title" font-size="11.5" fill="#ffffff" opacity=".92"
+        text-anchor="middle">~/Documents/SQL SERVER  —  zsh</text>
+
+  <!-- prompt -->
+  <g class="title">
+    <text x="24" y="66" class="mono" font-size="13">
+      <tspan fill="#2ea043">➜</tspan>
+      <tspan fill="#7c9cff">  SQL-SERVER-MODULE</tspan>
+      <tspan fill="#6e7681"> on </tspan><tspan fill="#2ea043">main</tspan>
+      <tspan fill="#6e7681"> via </tspan><tspan fill="#7c9cff">origin</tspan>
+      <tspan fill="#f0883e"> ⇡6</tspan>
+    </text>
+    <text x="24" y="92" class="mono" font-size="13">
+      <tspan fill="#2ea043">➜</tspan> <tspan fill="#e6edf3">git log --oneline --graph</tspan>
+    </text>
+  </g>
+
+  <!-- graph spine -->
+  <path class="spine" d="M36 120 V400" stroke="#3fb950" stroke-width="2"
+        fill="none" opacity="0"/>
+
+  <!-- commits -->
+  <g class="title">
+    <g class="c1">
+      <text x="48" y="128" class="mono" font-size="12.5">
+        <tspan class="ptr">* </tspan><tspan class="hash">f5248a8</tspan>
+        <tspan class="msg"> Animated SVG banner</tspan>
+      </text>
+      <circle cx="36" cy="124" r="5" fill="#3fb950"/>
+    </g>
+
+    <g class="c2">
+      <text x="48" y="164" class="mono" font-size="12.5">
+        <tspan class="br">|</tspan> <tspan class="hash">35bf461</tspan>
+        <tspan class="msg"> 19 annotated SQL scripts + 5 notes</tspan>
+      </text>
+      <circle cx="36" cy="160" r="5" fill="#3fb950"/>
+    </g>
+
+    <g class="c3">
+      <text x="48" y="200" class="mono" font-size="12.5">
+        <tspan class="br">|</tspan> <tspan class="hash">51e8920</tspan>
+        <tspan class="msg"> Add README, roadmap, glossary</tspan>
+      </text>
+      <circle cx="36" cy="196" r="5" fill="#3fb950"/>
+    </g>
+
+    <g class="c4">
+      <text x="48" y="236" class="mono" font-size="12.5">
+        <tspan class="br">|</tspan> <tspan class="hash">e677267</tspan>
+        <tspan class="msg"> create StudentRecordsDB</tspan>
+      </text>
+      <circle cx="36" cy="232" r="5" fill="#3fb950"/>
+    </g>
+
+    <g class="c5">
+      <text x="48" y="272" class="mono" font-size="12.5">
+        <tspan class="br">|</tspan> <tspan class="hash">0daade4</tspan>
+        <tspan class="msg"> ignore course manuals</tspan>
+      </text>
+      <circle cx="36" cy="268" r="5" fill="#3fb950"/>
+    </g>
+
+    <g class="c6">
+      <text x="48" y="308" class="mono" font-size="12.5">
+        <tspan class="br">|</tspan> <tspan class="hash">fa8c904</tspan>
+        <tspan class="msg"> remove old scripts</tspan>
+      </text>
+      <text x="48" y="330" class="mono" font-size="12.5">
+        <tspan class="br">|</tspan> <tspan class="hash">cdd6efb</tspan>
+        <tspan class="msg"> baseline snapshot</tspan>
+      </text>
+      <circle cx="36" cy="304" r="5" fill="#3fb950"/>
+      <circle cx="36" cy="326" r="5" fill="#3fb950"/>
+    </g>
+  </g>
+
+  <!-- the point: git never deletes -->
+  <g class="title" transform="translate(430,150)">
+    <rect x="0" y="0" width="418" height="176" rx="9" fill="#0b1018" stroke="#2b3240"/>
+    <text x="18" y="26" class="mono" font-size="11.5" fill="#7c9cff">
+      <tspan fill="#ff7b72">$</tspan> git show cdd6efb:SALES.sql
+    </text>
+    <line x1="18" y1="36" x2="400" y2="36" stroke="#2b3240"/>
+    <g class="mono" font-size="10.5" fill="#6e7681">
+      <text x="18" y="54">CREATE DATABASE Sales</text>
+      <text x="18" y="70">ON PRIMARY (</text>
+      <text x="18" y="86">    NAME = SalesPrimary,</text>
+      <text x="18" y="102" fill="#f0883e">    FILENAME = 'D:\Sales\SalesPrimary.mdf',</text>
+      <text x="18" y="118">    SIZE = 50MB,</text>
+      <text x="18" y="134">    FILEGROWTH = 20MB</text>
+      <text x="18" y="150">), LOG ON ( ... )</text>
+    </g>
+    <text x="18" y="170" class="mono" font-size="10.5" fill="#3fb950">
+      ✓ recovered from history — the file was deleted 6 commits ago
+    </text>
+  </g>
+
+  <!-- footer -->
+  <text x="24" y="392" class="mono title" font-size="11.5" fill="#4d5566">
+    <tspan fill="#f0883e">⇡6</tspan> commits · nothing is ever lost · recovered without a backup
+  </text>
+  <rect x="24" y="400" width="10" height="16" class="prompt" fill="#2ea043"/>
+</svg>

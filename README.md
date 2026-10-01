@@ -122,33 +122,9 @@ Built strictly from the four lecturer manuals, in dependency order.
 
 Six permanent tables, following the lecturer's specification.
 
-```text
-  dbo.Country              dbo.StateProvince         dbo.AddressType
-  +----------------+      +------------------+      +-----------------+
-  | CountryID   PK |      | StateProvinceID PK|     | AddressTypeID PK|
-  | Country     NN |      | StateProvince   NN|     | TypeName      NN|
-  +----------------+      +------------------+      +-----------------+
-
-  dbo.Customer                                    dbo.CustomerAddress
-  +-----------------------------+                +---------------------+
-  | CustomerID      PK  IDENTITY|                | AddressID     PK  ID|
-  | CustomerName    NN  UNIQUE |                | AddressLine1  NN  V30|
-  | CreditLine      NULL MONEY|                | City          NN  V30|
-  | OutstandingBal  NULL MONEY|                | StateProvinceID FK   |
-  | AvailableCredit  COMPUTED |                | AddressTypeID  FK    |
-  | CreationDate    NN  DATETIME               +---------------------+
-  +-----------------------------+
-             |                                        |
-             |                                          |
-             |     +---------------------------------+  |
-             +---->|  dbo.CustomerToCustomerAddress  |<--+
-                   |  (junction / many-to-many)        |
-                   |  +--------------+--------------+ |
-                   |  | CustomerID  | AddressID    | |
-                   |  | PK, FK      | PK, FK       | |
-                   |  +--------------+--------------+ |
-                   +-----------------------------------+
-```
+<p align="center">
+  <img src="assets/schema.svg" alt="Animated ER diagram: three lookup tables feed CustomerAddress, and Customer plus CustomerAddress are joined by the CustomerToCustomerAddress junction table" width="100%">
+</p>
 
 ### 🧠 Why the junction table exists
 
@@ -177,7 +153,10 @@ SQL-SERVER-MODULE/
 ├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk, manuals/
 ├── README.md               # this file
 ├── assets/
-│   └── banner.svg          # animated header (self-contained, no JS)
+│   ├── banner.svg         # animated terminal header
+│   ├── schema.svg         # animated ER diagram
+│   ├── codeeditor.svg     # animated CREATE TABLE typing
+│   └── gitlog.svg         # animated git log + recovery
 ├── notes/                  # teaching notes, one per lecturer manual
 │   ├── 01_manual_1_installation.md
 │   ├── 02_manual_2_tables.md
@@ -193,26 +172,46 @@ SQL-SERVER-MODULE/
     └── 06_monitoring/      # Part 4  — locks, blocking, deadlocks, isolation
 ```
 
-### About the animated banner
+## 🎬 Animated Diagrams
 
-`assets/banner.svg` is hand-written SVG with embedded CSS and SMIL animation —
-no JavaScript, no external services, nothing that phones home.
+All four graphics in this README are hand-written SVG with embedded CSS and SMIL
+animation. **No JavaScript, no GIFs, no external services, nothing that phones
+home.**
 
-GitHub strips `<script>` and `<style>` from *markdown*, but it serves `.svg`
-files as real images, and **CSS animations inside an SVG do play** when the SVG
-is embedded with `<img>`. The animations are:
-
-| Element | Animation |
+| Asset | What it shows |
 |---|---|
-| Terminal lines | typewriter reveal, staggered, then loop every 14s |
-| Cursor | blinking |
-| Database cylinder | floating up and down |
-| Dashed ring | rotating |
-| Window dots / status bars | pulsing |
-| Background glow | breathing |
+| [`assets/banner.svg`](assets/banner.svg) | Terminal typing your live instance details, blinking cursor, floating database cylinder |
+| [`assets/schema.svg`](assets/schema.svg) | The six-table ER diagram — boxes pop in, FK lines draw themselves, packets travel along them |
+| [`assets/codeeditor.svg`](assets/codeeditor.svg) | An editor typing the lecturer's actual `CREATE TABLE dbo.Country`, with a moving caret and a success toast |
+| [`assets/gitlog.svg`](assets/gitlog.svg) | `git log --graph` scrolling, then recovering your deleted `SALES.sql` from history |
 
-It also honours `prefers-reduced-motion` — if you have "reduce motion" enabled
-in your OS, it renders as a clean static image instead.
+<p align="center">
+  <img src="assets/codeeditor.svg" alt="Animated code editor typing CREATE TABLE dbo.Country" width="100%">
+</p>
+
+### Why inline SVG and not CSS in the markdown?
+
+GitHub **strips `<script>` and `<style>` tags from markdown**, so CSS tricks in a
+README do nothing. But GitHub serves `.svg` files as genuine images, and **CSS
+and SMIL animations inside an SVG do play** when it is embedded with `<img>`.
+So the styling and the animation both live inside the SVG file instead of in
+the markdown.
+
+### Accessibility
+
+Every asset honours `prefers-reduced-motion`. If you have **"reduce motion"**
+enabled in Windows or macOS, they render as clean static images instead of
+animating.
+
+### Where it works
+
+Animations play on the **repo's main page in a browser**. They do **not** animate
+in the GitHub mobile app, in the file preview, or in the API/raw view.
+
+To edit any of them: open the `.svg` in a text editor or browser and change the
+`<text>` elements. Everything is plain XML — there is no build step.
+
+---
 
 ### Two conventions
 
@@ -242,6 +241,10 @@ are expected and correct.
 
 ## 🔀 Git Workflow
 
+<p align="center">
+  <img src="assets/gitlog.svg" alt="Animated terminal: git log output scrolling, then git show recovering a deleted file from commit cdd6efb" width="100%">
+</p>
+
 ```bash
 git status              # what changed?          <- run this most often
 git add .               # stage changes
@@ -258,6 +261,10 @@ Git never truly deletes anything while history exists.
 git show <commit>:<path>              # print an old version
 git checkout <commit> -- <path>       # restore it to disk
 ```
+
+Your original `SALES.sql` — the filegroup exercise with the broken `D:\` paths —
+was deleted three commits ago and is still fully recoverable. See the animation
+above.
 
 ### Useful extras
 
