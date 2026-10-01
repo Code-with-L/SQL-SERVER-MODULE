@@ -164,14 +164,18 @@ relationship in every database you will ever meet follows this pattern.
 SQL-SERVER-MODULE/
 ├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk, manuals/
 ├── README.md               # this file
-├── assets/                # 7 hand-written animated SVGs (no JS, no GIFs)
+├── assets/                # 11 hand-written animated SVGs (no JS, no GIFs)
+│   ├── logo.svg           # compact animated logo
 │   ├── banner.svg         # animated terminal header
 │   ├── schema.svg         # animated ER diagram
 │   ├── codeeditor.svg     # animated CREATE TABLE typing
 │   ├── gitlog.svg         # animated git log + recovery
 │   ├── copyonwrite.svg    # animated snapshot copy-on-write
 │   ├── deadlock.svg       # animated deadlock cycle + victim
-│   └── isolation.svg      # animated isolation level matrix
+│   ├── isolation.svg      # animated isolation level matrix
+│   ├── lockmodes.svg      # animated S/U/X lock compatibility
+│   ├── wal.svg            # animated write-ahead logging
+│   └── seekvscan.svg      # animated index seek vs table scan
 ├── notes/                  # teaching notes, one per lecturer manual
 │   ├── 01_manual_1_installation.md
 │   ├── 02_manual_2_tables.md
@@ -202,6 +206,10 @@ home.**
 | [`copyonwrite.svg`](assets/copyonwrite.svg) | Why a 400 GB snapshot takes one second | changed pages flash red and get copied, snapshot grid fills in, size counters tick 8 MB → 1.4 GB, clock spins |
 | [`deadlock.svg`](assets/deadlock.svg) | Two transactions forming a cycle | locks grab in sequence, wait states appear, cycle arcs draw, badge spins, victim struck out, `Msg 1205` slides in |
 | [`isolation.svg`](assets/isolation.svg) | The five isolation levels vs four anomalies | highlight slides across rows in sync with the master clock, callouts cross-fade, caret blinks |
+| [`lockmodes.svg`](assets/lockmodes.svg) | The S/U/X compatibility matrix | an orange wash sweeps the grid lighting each cell, the U/U cell pulses orange, callout fades in |
+| [`wal.svg`](assets/wal.svg) | Write-ahead logging | log record flushes before the page changes, power-cut marker hits, undo record fades in, hand sweeps the clock |
+| [`seekvscan.svg`](assets/seekvscan.svg) | Index seek vs table scan | a probe dives the B+ tree to one leaf, a red bar sweeps every row of a scan, counters light up |
+| [`logo.svg`](assets/logo.svg) | Compact animated logo | three orbits spin at different rates, cylinder bobs, data bands pulse, keywords light up in sequence |
 
 <p align="center">
   <img src="assets/codeeditor.svg" alt="Animated code editor typing CREATE TABLE dbo.Country" width="100%">
@@ -209,6 +217,22 @@ home.**
 
 <p align="center">
   <img src="assets/deadlock.svg" alt="Animated deadlock formation and victim selection" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/lockmodes.svg" alt="Animated lock mode compatibility matrix, highlighting the surprising Update-vs-Update wait" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/wal.svg" alt="Animated write-ahead logging: the log record is flushed before the data page changes, so a committed transaction survives a power cut" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/seekvscan.svg" alt="Animated comparison of an index seek reading 3 pages against a table scan reading 144" width="100%">
+</p>
+
+<p align="center">
+  <img src="assets/logo.svg" alt="SQL Server Module animated logo" width="900">
 </p>
 
 ### Why inline SVG and not CSS in the markdown?

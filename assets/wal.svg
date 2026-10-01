@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%"
+     height="540" role="img"
+     aria-label="Animated write-ahead logging: the transaction log is flushed to disk before the data page changes">
+
+  <defs>
+    <linearGradient id="walBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#071014"/>
+      <stop offset="100%" stop-color="#0c0814"/>
+    </linearGradient>
+    <linearGradient id="logG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="dataG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <marker id="wArrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#22d3ee"/>
+    </marker>
+    <filter id="walGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    .mono { font-family:'Cascadia Mono','JetBrains Mono',Consolas,'DejaVu Sans Mono',monospace; }
+    .head { fill:#e2e8f0; font-size:16px; font-weight:700; }
+    .sub  { fill:#7c8595; font-size:11.5px; }
+    .lbl  { fill:#cbd5e1; font-size:12.5px; font-weight:600; }
+    .txt  { fill:#94a3b8; font-size:11px; }
+    .num  { fill:#7c8595; font-size:10.5px; }
+    .big  { fill:#fbbf24; font-size:12px; font-weight:700; }
+
+    /* the two write steps, strictly ordered */
+    .step1 { animation: s1 14s ease-in-out infinite; }
+    .step2 { animation: s2 14s ease-in-out infinite; }
+    @keyframes s1 { 0%,8%{opacity:.2} 14%,44%{opacity:1} 50%,100%{opacity:.2} }
+    @keyframes s2 { 0%,42%{opacity:.2} 50%,86%{opacity:1} 92%,100%{opacity:.2} }
+
+    /* the log record travelling to disk */
+    .rec { animation: recTravel 14s linear infinite; }
+    @keyframes recTravel {
+      0%,10%  { opacity:0; transform:translateY(0); }
+      13%     { opacity:1; }
+      24%     { opacity:1; transform:translateY(46px); }
+      27%     { opacity:0; transform:translateY(46px); }
+      100%    { opacity:0; }
+    }
+
+    /* the power-cut marker */
+    .crash { animation: crash 14s ease-in-out infinite; }
+    @keyframes crash {
+      0%,26%  { opacity:0; }
+      29%     { opacity:1; }
+      31%     { opacity:1; }
+      34%     { opacity:.35; }
+      100%    { opacity:0; }
+    }
+    .survive { animation: survive 14s ease-in-out infinite; animation-delay:.3s; }
+    @keyframes survive {
+      0%,27%  { opacity:.2; }
+      31%     { opacity:1; }
+      86%     { opacity:1; }
+      90%,100%{ opacity:.2; }
+    }
+
+    /* the undo record for the failed transaction */
+    .undo { animation: undo 14s ease-in-out infinite; }
+    @keyframes undo {
+      0%,30%  { opacity:0; transform:translateX(-12px); }
+      34%     { opacity:1; transform:none; }
+      84%     { opacity:1; }
+      88%,100%{ opacity:0; transform:translateX(-12px); }
+    }
+
+    .pulse { animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    .spin { animation: spin 3s linear infinite; transform-origin:490px 480px; }
+    @keyframes spin { to { transform:rotate(360deg) } }
+
+    .tick { animation: fadeIn 1s ease-out both; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    @media (prefers-reduced-motion: reduce) {
+      .step1,.step2,.rec,.crash,.survive,.undo,.pulse,.spin { animation:none; opacity:1 }
+    }
+  </style>
+
+  <rect width="960" height="540" fill="url(#walBg)"/>
+
+  <text x="26" y="34" class="mono head">WRITE-AHEAD LOGGING — why a committed transaction survives a power cut</text>
+  <text x="26" y="54" class="mono sub">
+    The log is flushed to disk BEFORE the data page is ever touched. That order is the whole guarantee.
+  </text>
+
+  <!-- ============ the statement ============ -->
+  <g transform="translate(26,84)">
+    <rect x="0" y="0" width="480" height="52" rx="7" fill="#0d1117" stroke="#30363d"/>
+    <text x="14" y="22" class="mono" font-size="12.5" fill="#ff7b72" font-weight="600">BEGIN TRANSACTION;</text>
+    <text x="14" y="40" class="mono" font-size="12.5" fill="#79c0ff">
+      UPDATE dbo.Country SET Country='KENYA' WHERE CountryID=1;
+    </text>
+  </g>
+
+  <!-- ============ STEP 1: log first ============ -->
+  <g class="step1">
+    <rect x="536" y="84" width="398" height="52" rx="7" fill="#1a1408" stroke="#b45309"/>
+    <text x="552" y="106" class="mono" font-size="12.5" font-weight="700" fill="#fcd34d">STEP 1 — WRITE THE LOG</text>
+    <text x="552" y="126" class="mono" font-size="11" fill="#fbbf24">log record flushed to disk</text>
+  </g>
+
+  <!-- ============ STEP 2: data after ============ -->
+  <g class="step2">
+    <rect x="536" y="146" width="398" height="52" rx="7" fill="#0a1a26" stroke="#0369a1"/>
+    <text x="552" y="168" class="mono" font-size="12.5" font-weight="700" fill="#7dd3fc">STEP 2 — THEN THE DATA PAGE</text>
+    <text x="552" y="188" class="mono" font-size="11" fill="#38bdf8">buffer pool flushed, page updated</text>
+  </g>
+
+  <!-- ============ THE TRANSACTION LOG ============ -->
+  <g transform="translate(26,168)">
+    <rect x="0" y="0" width="480" height="128" rx="9" fill="#1a1206" stroke="#b45309"/>
+    <rect x="0" y="0" width="480" height="26" rx="9" fill="url(#logG)"/>
+    <rect x="0" y="16" width="480" height="10" fill="url(#logG)"/>
+    <text x="14" y="18" class="mono" font-size="11.5" font-weight="700" fill="#422006">
+      StudentRecordsDB_log.ldf  ·  transaction log
+    </text>
+    <text x="466" y="18" class="mono num" font-size="10" fill="#78350f" text-anchor="end">sequential</text>
+
+    <!-- log records -->
+    <g>
+      <rect x="14" y="38" width="86" height="22" rx="4" fill="#1c1917" stroke="#57534e"/>
+      <text x="57" y="53" class="mono" font-size="9.5" fill="#a8a29e" text-anchor="middle">LSN 41A0</text>
+
+      <rect x="106" y="38" width="86" height="22" rx="4" fill="#1c1917" stroke="#57534e"/>
+      <text x="149" y="53" class="mono" font-size="9.5" fill="#a8a29e" text-anchor="middle">LSN 41A4</text>
+
+      <rect x="198" y="38" width="86" height="22" rx="4" fill="#1c1917" stroke="#57534e"/>
+      <text x="241" y="53" class="mono" font-size="9.5" fill="#a8a29e" text-anchor="middle">LSN 41A8</text>
+
+      <!-- the live one -->
+      <g class="pulse">
+        <rect x="290" y="38" width="104" height="22" rx="4" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"/>
+        <text x="342" y="53" class="mono" font-size="9.5" fill="#422006" font-weight="700"
+              text-anchor="middle">LSN 41AC ← ours</text>
+      </g>
+
+      <rect x="400" y="38" width="66" height="22" rx="4" fill="#1c1917" stroke="#57534e"/>
+      <text x="433" y="53" class="mono" font-size="9.5" fill="#a8a29e" text-anchor="middle">LSN 41B0</text>
+    </g>
+
+    <text x="14" y="84" class="mono txt">
+      <tspan fill="#fbbf24">BEGIN</tspan>   page 1  latch  tx 1000
+    </text>
+    <text x="14" y="102" class="mono txt">
+      <tspan fill="#fbbf24">UPDATE</tspan>   CountryID=1  'Kenya' → 'KENYA'
+    </text>
+    <text x="14" y="120" class="mono" font-size="10" fill="#d6d3d1">
+      every change is appended BEFORE it is applied — that is "write-ahead"
+    </text>
+  </g>
+
+  <!-- travelling log record -->
+  <g class="rec">
+    <rect x="286" y="176" width="112" height="26" rx="5" fill="#fbbf24"
+          stroke="#fde68a" filter="url(#walGlow)"/>
+    <text x="342" y="193" class="mono" font-size="10" font-weight="700"
+          fill="#422006" text-anchor="middle">flush LSN 41AC</text>
+  </g>
+
+  <!-- ============ THE DATA PAGE ============ -->
+  <g transform="translate(536,222)">
+    <rect x="0" y="0" width="398" height="132" rx="9" fill="#0a1622" stroke="#0369a1"/>
+    <rect x="0" y="0" width="398" height="26" rx="9" fill="url(#dataG)"/>
+    <rect x="0" y="16" width="398" height="10" fill="url(#dataG)"/>
+    <text x="14" y="18" class="mono" font-size="11.5" font-weight="700" fill="#042f3a">
+      Buffer pool  ·  StudentRecordsDB.mdf
+    </text>
+    <text x="384" y="18" class="mono" font-size="10" fill="#7dd3fc" text-anchor="end">page 1</text>
+
+    <!-- row 1 changes -->
+    <g class="step2">
+      <rect x="14" y="38" width="370" height="26" rx="4" fill="#062032" stroke="#0ea5e9"/>
+      <text x="26" y="55" class="mono" font-size="11" fill="#7dd3fc">CountryID=1</text>
+      <text x="130" y="55" class="mono" font-size="11" fill="#64748b">was</text>
+      <text x="166" y="55" class="mono" font-size="11" fill="#64748b" text-decoration="line-through">Kenya</text>
+      <text x="222" y="55" class="mono" font-size="11" fill="#4ade80">now</text>
+      <text x="256" y="55" class="mono" font-size="11" fill="#4ade80" font-weight="700">KENYA</text>
+    </g>
+
+    <rect x="14" y="70" width="370" height="22" rx="4" fill="#0c1726" stroke="#1e3a5f"/>
+    <text x="26" y="85" class="mono" font-size="11" fill="#475569">CountryID=2  Kenya (unchanged)</text>
+
+    <rect x="14" y="98" width="370" height="22" rx="4" fill="#0c1726" stroke="#1e3a5f"/>
+    <text x="26" y="113" class="mono" font-size="11" fill="#475569">CountryID=3  Uganda (unchanged)</text>
+  </g>
+
+  <!-- arrow: log precedes data -->
+  <path d="M266 302 C 300 302, 300 330, 330 330"
+        fill="none" stroke="#22d3ee" stroke-width="2.5"
+        stroke-dasharray="6 5" marker-end="url(#wArrow)" opacity=".6"/>
+
+  <!-- ============ POWER CUT ============ -->
+  <g transform="translate(26,376)">
+    <rect x="0" y="0" width="908" height="88" rx="9" fill="#1a0a0a" stroke="#7f1d1d"/>
+    <text x="16" y="24" class="mono" font-size="12.5" font-weight="700" fill="#fca5a5">
+      ⚡ NOW CUT THE POWER
+    </text>
+
+    <g class="crash">
+      <text x="16" y="50" class="mono" font-size="11.5" fill="#f87171">
+        The data page may never have reached disk.
+      </text>
+    </g>
+
+    <g class="survive">
+      <text x="16" y="50" class="mono" font-size="11.5" fill="#4ade80">
+        But the log record is already safe on disk.
+      </text>
+    </g>
+
+    <g class="survive">
+      <text x="16" y="72" class="mono" font-size="11.5" fill="#86efac">
+        On restart, SQL Server replays the log and the COMMIT survives.
+      </text>
+    </g>
+
+    <g class="undo">
+      <rect x="560" y="12" width="332" height="64" rx="7" fill="#0f1a12" stroke="#166534"/>
+      <text x="576" y="32" class="mono" font-size="11" font-weight="700" fill="#86efac">
+        IF the transaction had NOT committed:
+      </text>
+      <text x="576" y="52" class="mono" font-size="11" fill="#4ade80">
+        the log holds the original value,</text>
+      <text x="576" y="68" class="mono" font-size="11" fill="#4ade80">
+        so it can ROLL BACK exactly.
+      </text>
+    </g>
+  </g>
+
+  <!-- ============ footer ============ -->
+  <g transform="translate(26,486)">
+    <circle cx="464" cy="-6" r="22" fill="#0d1420" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="464" cy="-6" r="22" fill="none" stroke="#a78bfa" stroke-width="1"
+            stroke-dasharray="4 8" class="spin"/>
+    <text x="464" y="-1" class="mono" font-size="9.5" fill="#c4b5fd" text-anchor="middle">LDF</text>
+
+    <text x="0" y="0" class="mono tick" font-size="11" fill="#7c8595">
+      That is why the log file lives outside every filegroup,
+    </text>
+    <text x="0" y="18" class="mono tick" font-size="11" fill="#7c8595">
+      why it gets its own fast storage, and why you never shrink it.
+    </text>
+  </g>
+</svg>

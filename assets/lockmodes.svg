@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" width="100%"
+     height="620" role="img"
+     aria-label="Animated lock mode compatibility matrix: which lock modes block each other">
+
+  <defs>
+    <linearGradient id="lcBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#0f0a06"/>
+      <stop offset="100%" stop-color="#140d08"/>
+    </linearGradient>
+    <linearGradient id="okG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#14532d"/><stop offset="100%" stop-color="#052e16"/>
+    </linearGradient>
+    <linearGradient id="waitG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#2a0a0a"/>
+    </linearGradient>
+    <marker id="lcArr" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#fb923c"/>
+    </marker>
+  </defs>
+
+  <style>
+    .mono { font-family:'Cascadia Mono','JetBrains Mono',Consolas,'DejaVu Sans Mono',monospace; }
+    .head { fill:#f5e6d3; font-size:16px; font-weight:700; }
+    .sub  { fill:#9c8b7a; font-size:11.5px; }
+    .colH { fill:#e7d3bb; font-size:13px; font-weight:700; text-anchor:middle; }
+    .rowH { fill:#e7d3bb; font-size:13px; font-weight:700; }
+    .cellTxt { font-size:13px; font-weight:800; text-anchor:middle; }
+
+    /* a wash sweeps across the matrix, lighting each cell in turn */
+    .scan {
+      animation: scan 20s linear infinite;
+    }
+    @keyframes scan {
+      0%   { transform:translateX(-130px); opacity:0; }
+      6%   { opacity:1; }
+      94%  { opacity:1; }
+      100% { transform:translateX(800px); opacity:0; }
+    }
+
+    /* each cell lights up as the scan passes over it */
+    .c11 { animation: cellOn 20s linear infinite; }
+    .c12 { animation: cellOn 20s linear infinite; animation-delay:.35s; }
+    .c13 { animation: cellOn 20s linear infinite; animation-delay:.70s; }
+    .c21 { animation: cellOn 20s linear infinite; animation-delay:1.05s; }
+    .c22 { animation: cellOn 20s linear infinite; animation-delay:1.40s; }
+    .c23 { animation: cellOn 20s linear infinite; animation-delay:1.75s; }
+    .c31 { animation: cellOn 20s linear infinite; animation-delay:2.10s; }
+    .c32 { animation: cellOn 20s linear infinite; animation-delay:2.45s; }
+    .c33 { animation: cellOn 20s linear infinite; animation-delay:2.80s; }
+
+    @keyframes cellOn {
+      0%   { filter:none; }
+      4%   { filter:brightness(1.9) saturate(1.6); }
+      9%   { filter:none; }
+      100% { filter:none; }
+    }
+
+    /* the U/U cell — the surprising one, called out on its own */
+    .uu {
+      animation: uuPulse 20s ease-in-out infinite;
+      animation-delay:2.45s;
+    }
+    @keyframes uuPulse {
+      0%,3%   { opacity:1; }
+      5%      { opacity:1; stroke-width:3.5; }
+      9%      { stroke-width:2; }
+      100%    { opacity:1; }
+    }
+
+    .callout { animation: callout 20s ease-in-out infinite; }
+    @keyframes callout {
+      0%,2%   { opacity:0; transform:translateY(8px); }
+      6%      { opacity:1; transform:none; }
+      94%     { opacity:1; }
+      98%,100%{ opacity:0; }
+    }
+
+    .diag { animation: diagGlow 20s ease-in-out infinite; }
+    @keyframes diagGlow {
+      0%,4%   { opacity:.18; }
+      8%,92%  { opacity:.75; }
+      96%,100%{ opacity:.18; }
+    }
+
+    .legend { animation: fadeIn 1s ease-out both; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    .spinner { animation: spin 2.2s linear infinite; transform-origin:806px 548px; }
+    @keyframes spin { to { transform:rotate(360deg) } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scan,.c11,.c12,.c13,.c21,.c22,.c23,.c31,.c32,.c33,
+      .uu,.callout,.diag,.spinner { animation:none; filter:none }
+    }
+  </style>
+
+  <rect width="960" height="620" fill="url(#lcBg)"/>
+
+  <text x="26" y="34" class="mono head">LOCK COMPATIBILITY — who can hold what, and who has to wait</text>
+  <text x="26" y="54" class="mono sub">
+    Rows = what a session already holds. Columns = what a second session now wants.
+  </text>
+
+  <!-- ================= THE MATRIX ================= -->
+  <g transform="translate(210,110)">
+    <!-- column headers -->
+    <text x="80"  y="-34" class="mono colH">wants S</text>
+    <text x="220" y="-34" class="mono colH">wants U</text>
+    <text x="360" y="-34" class="mono colH">wants X</text>
+
+    <!-- row headers -->
+    <text x="-24" y="-14" class="mono rowH">holds S</text>
+    <text x="-24" y="36"  class="mono rowH">holds U</text>
+    <text x="-24" y="86"  class="mono rowH">holds X</text>
+
+    <!-- row / col guide tint -->
+    <g opacity=".1">
+      <rect x="-96" y="-26" width="440" height="26" fill="#fb923c"/>
+      <rect x="-96" y="24"  width="440" height="26" fill="#fb923c"/>
+      <rect x="-96" y="74"  width="440" height="26" fill="#fb923c"/>
+      <rect x="40"  y="-56" width="80"  height="156" fill="#fb923c"/>
+      <rect x="180" y="-56" width="80"  height="156" fill="#fb923c"/>
+      <rect x="320" y="-56" width="80"  height="156" fill="#fb923c"/>
+    </g>
+
+    <!-- ==== row S ==== -->
+    <g>
+      <rect class="c11" x="42"  y="-24" width="76" height="24" rx="5" fill="url(#okG)" stroke="#22c55e"/>
+      <text class="cellTxt" x="80"  y="-7" fill="#86efac">OK</text>
+
+      <rect class="c12" x="182" y="-24" width="76" height="24" rx="5" fill="url(#okG)" stroke="#22c55e"/>
+      <text class="cellTxt" x="220" y="-7" fill="#86efac">OK</text>
+
+      <rect class="c13" x="322" y="-24" width="76" height="24" rx="5" fill="url(#waitG)" stroke="#ef4444"/>
+      <text class="cellTxt" x="360" y="-7" fill="#fca5a5">WAIT</text>
+    </g>
+
+    <!-- ==== row U ==== -->
+    <g>
+      <rect class="c21" x="42"  y="26" width="76" height="24" rx="5" fill="url(#okG)" stroke="#22c55e"/>
+      <text class="cellTxt" x="80"  y="43" fill="#86efac">OK</text>
+
+      <!-- the surprising cell -->
+      <rect class="c22 uu" x="182" y="26" width="76" height="24" rx="5"
+            fill="url(#waitG)" stroke="#fb923c" stroke-width="2"/>
+      <text class="cellTxt" x="220" y="43" fill="#fdba74">WAIT</text>
+
+      <rect class="c23" x="322" y="26" width="76" height="24" rx="5" fill="url(#waitG)" stroke="#ef4444"/>
+      <text class="cellTxt" x="360" y="43" fill="#fca5a5">WAIT</text>
+    </g>
+
+    <!-- ==== row X ==== -->
+    <g>
+      <rect class="c31" x="42"  y="76" width="76" height="24" rx="5" fill="url(#waitG)" stroke="#ef4444"/>
+      <text class="cellTxt" x="80"  y="93" fill="#fca5a5">WAIT</text>
+
+      <rect class="c32" x="182" y="76" width="76" height="24" rx="5" fill="url(#waitG)" stroke="#ef4444"/>
+      <text class="cellTxt" x="220" y="93" fill="#fca5a5">WAIT</text>
+
+      <rect class="c33" x="322" y="76" width="76" height="24" rx="5" fill="url(#waitG)" stroke="#ef4444"/>
+      <text class="cellTxt" x="360" y="93" fill="#fca5a5">WAIT</text>
+    </g>
+
+    <!-- scanning wash -->
+    <rect class="scan" x="-130" y="-56" width="130" height="156"
+          fill="url(#scanGrad)" opacity=".18">
+      <linearGradient id="scanGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#fb923c" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#fb923c" stop-opacity=".9"/>
+      </linearGradient>
+    </rect>
+  </g>
+
+  <!-- ================= THE THREE MODES ================= -->
+  <g transform="translate(26,300)">
+    <rect x="0" y="0" width="290" height="76" rx="8" fill="#0f1a12" stroke="#166534"/>
+    <text x="14" y="22" class="mono" font-size="12.5" font-weight="700" fill="#86efac">S — Shared</text>
+    <text x="14" y="42" class="mono" font-size="11" fill="#4ade80">reading. Many readers OK.</text>
+    <text x="14" y="60" class="mono" font-size="11" fill="#4ade80">Blocks any writer.</text>
+
+    <rect x="310" y="0" width="290" height="76" rx="8" fill="#1a1408" stroke="#78350f"/>
+    <text x="324" y="22" class="mono" font-size="12.5" font-weight="700" fill="#fcd34d">U — Update</text>
+    <text x="324" y="42" class="mono" font-size="11" fill="#fbbf24">"about to write". Stronger than S.</text>
+    <text x="324" y="60" class="mono" font-size="11" fill="#fbbf24">Waits even against U. ← the surprise</text>
+
+    <rect x="620" y="0" width="290" height="76" rx="8" fill="#1a0a0a" stroke="#7f1d1d"/>
+    <text x="634" y="22" class="mono" font-size="12.5" font-weight="700" fill="#fca5a5">X — Exclusive</text>
+    <text x="634" y="42" class="mono" font-size="11" fill="#f87171">writing. Blocks everything.</text>
+    <text x="634" y="60" class="mono" font-size="11" fill="#f87171">Plus I (intent) and Sch on tables.</text>
+  </g>
+
+  <!-- ================= WHY U/U WAITS ================= -->
+  <g class="callout" transform="translate(26,398)">
+    <rect x="0" y="0" width="430" height="120" rx="9" fill="#1a1408" stroke="#78350f"/>
+    <text x="16" y="24" class="mono" font-size="12" font-weight="700" fill="#fcd34d">
+      WHY DOES UPDATE WAIT FOR UPDATE?
+    </text>
+    <text x="16" y="48" class="mono" font-size="11" fill="#fbbf24">
+      If two sessions held U and both read the same row,</text>
+    <text x="16" y="64" class="mono" font-size="11" fill="#fbbf24">
+      they could each calculate from the same value and each</text>
+    <text x="16" y="80" class="mono" font-size="11" fill="#fbbf24">
+      write — and the second write silently destroys the first.</text>
+    <text x="16" y="104" class="mono" font-size="11" font-weight="700" fill="#fde68a">
+      U/U waiting is what prevents a lost update.</text>
+  </g>
+
+  <!-- ================= GRANULARITY ================= -->
+  <g class="legend" transform="translate(480,398)">
+    <rect x="0" y="0" width="430" height="120" rx="9" fill="#0d1420" stroke="#1e3a5f"/>
+    <text x="16" y="24" class="mono" font-size="12" font-weight="700" fill="#7dd3fc">
+      HOW BIG IS THE LOCK?
+    </text>
+
+    <rect x="16" y="38" width="46" height="26" rx="4" fill="#1e40af" stroke="#3b82f6"/>
+    <text x="39" y="55" class="mono" font-size="9.5" fill="#c7d2fe" text-anchor="middle">KEY</text>
+    <text x="72" y="48" class="mono" font-size="10.5" fill="#94a3b8">one row — the most common</text>
+    <text x="72" y="62" class="mono" font-size="10.5" fill="#64748b">finest granularity, fewest conflicts</text>
+
+    <rect x="16" y="70" width="46" height="26" rx="4" fill="#4338ca" stroke="#6366f1"/>
+    <text x="39" y="87" class="mono" font-size="9.5" fill="#c7d2fe" text-anchor="middle">PAGE</text>
+    <text x="72" y="80" class="mono" font-size="10.5" fill="#94a3b8">8 KB — several rows at once</text>
+    <text x="72" y="94" class="mono" font-size="10.5" fill="#64748b">one untouched row still blocks its neighbours</text>
+
+    <rect x="240" y="38" width="46" height="26" rx="4" fill="#6d28d9" stroke="#a78bfa"/>
+    <text x="263" y="55" class="mono" font-size="9.5" fill="#ddd6fe" text-anchor="middle">TABLE</text>
+    <text x="296" y="48" class="mono" font-size="10.5" fill="#94a3b8">whole table</text>
+    <text x="296" y="62" class="mono" font-size="10.5" fill="#64748b">ALTER TABLE, schema changes</text>
+
+    <rect x="240" y="70" width="46" height="26" rx="4" fill="#be185d" stroke="#f472b6"/>
+    <text x="263" y="87" class="mono" font-size="9.5" fill="#fbcfe8" text-anchor="middle">DB</text>
+    <text x="296" y="80" class="mono" font-size="10.5" fill="#94a3b8">whole database</text>
+    <text x="296" y="94" class="mono" font-size="10.5" fill="#64748b">CREATE / ALTER DATABASE</text>
+  </g>
+
+  <!-- ================= footer ================= -->
+  <g transform="translate(26,546)">
+    <text x="0" y="0" class="mono" font-size="11" fill="#64748b">
+      See it live:
+    </text>
+    <text x="80" y="0" class="mono" font-size="11" fill="#7dd3fc">
+      SELECT * FROM sys.dm_tran_locks;
+    </text>
+    <text x="330" y="0" class="mono" font-size="11" fill="#7c8595">
+      resource_type = KEY / PAGE / TABLE  ·  request_mode = S / U / X / IX
+    </text>
+  </g>
+
+  <!-- a little lock glyph spinning, purely decorative -->
+  <g opacity=".35">
+    <g class="spinner">
+      <circle cx="806" cy="548" r="22" fill="none" stroke="#fb923c"
+              stroke-width="1.5" stroke-dasharray="5 9"/>
+    </g>
+    <rect x="798" y="540" width="16" height="18" rx="3" fill="#78350f" stroke="#fbbf24"/>
+    <path d="M802 540 v-4 a4 4 0 0 1 8 0 v4" fill="none" stroke="#fbbf24" stroke-width="1.6"/>
+  </g>
+
+  <rect x="26" y="580" width="9" height="14" fill="#fb923c">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+  <text x="44" y="591" class="mono legend" font-size="10.5" fill="#475569">
+    a deadlock is not exotic — it is two sessions reaching these cells in opposite order
+  </text>
+</svg>

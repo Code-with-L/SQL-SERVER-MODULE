@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="100%"
+     height="560" role="img"
+     aria-label="Animated index seek versus scan: log2N lookup compared with reading every page">
+
+  <defs>
+    <linearGradient id="ixBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#04121a"/>
+      <stop offset="100%" stop-color="#0a1020"/>
+    </linearGradient>
+    <linearGradient id="seekG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#065f46"/><stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+    <linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#2a0a0a"/>
+    </linearGradient>
+    <marker id="ixArr" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <style>
+    .mono { font-family:'Cascadia Mono','JetBrains Mono',Consolas,'DejaVu Sans Mono',monospace; }
+    .head { fill:#e2e8f0; font-size:16px; font-weight:700; }
+    .sub  { fill:#7c8595; font-size:11.5px; }
+    .lbl  { fill:#cbd5e1; font-size:12px; font-weight:600; }
+    .txt  { fill:#94a3b8; font-size:11px; }
+    .stat { fill:#e2e8f0; font-size:13px; font-weight:700; }
+    .cnt  { fill:#34d399; font-size:19px; font-weight:800; }
+
+    /* SEEK: probe dives straight to one leaf */
+    .seekPath {
+      stroke-dasharray: 300; stroke-dashoffset: 300;
+      animation: dive 9s ease-in-out infinite;
+    }
+    @keyframes dive {
+      0%,8%   { stroke-dashoffset:300; opacity:0; }
+      12%     { opacity:1; }
+      30%     { stroke-dashoffset:0; opacity:1; }
+      88%     { stroke-dashoffset:0; opacity:1; }
+      94%,100%{ stroke-dashoffset:300; opacity:0; }
+    }
+    .probe { animation: probe 9s ease-in-out infinite; }
+    @keyframes probe {
+      0%,10%  { opacity:0; transform:translate(0,0); }
+      13%     { opacity:1; }
+      30%     { opacity:1; transform:translate(0,150px); }
+      86%     { opacity:1; transform:translate(0,150px); }
+      92%,100%{ opacity:0; transform:translate(0,0); }
+    }
+    .hitLeaf { animation: hit 9s ease-in-out infinite; }
+    @keyframes hit {
+      0%,28%  { fill:#0c2e26; stroke:#065f46; }
+      32%     { fill:#34d399; stroke:#a7f3d0; }
+      45%     { fill:#0c2e26; stroke:#065f46; }
+      100%    { fill:#0c2e26; stroke:#065f46; }
+    }
+
+    /* SCAN: a light sweeps every row, page by page */
+    .rowLit {
+      fill:#0f1a2a; stroke:#1e3a5f;
+      animation: lit 9s linear infinite;
+    }
+    @keyframes lit {
+      0%   { fill:#7f1d1d; stroke:#f87171; }
+      4%   { fill:#0f1a2a; stroke:#1e3a5f; }
+      100% { fill:#0f1a2a; stroke:#1e3a5f; }
+    }
+    .scanHead {
+      animation: sweepY 9s linear infinite;
+    }
+    @keyframes sweepY {
+      0%   { transform:translateY(0); opacity:0; }
+      4%   { opacity:1; }
+      90%  { transform:translateY(220px); opacity:1; }
+      96%,100%{ transform:translateY(220px); opacity:0; }
+    }
+
+    /* counters */
+    .seekN { animation: seekN 9s ease-in-out infinite; }
+    .scanN { animation: scanN 9s linear infinite; }
+    @keyframes seekN {
+      0%,28%  { opacity:.3; } 40%,86%{ opacity:1; } 92%,100%{ opacity:.3; }
+    }
+    @keyframes scanN {
+      0%   { opacity:.3; } 8%,88%{ opacity:1; } 94%,100%{ opacity:.3; }
+    }
+
+    /* the comparison verdict */
+    .verdict { animation: fadeIn 1s ease-out both; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+
+    .cost { animation: cost 9s ease-in-out infinite; }
+    @keyframes cost {
+      0%,30%  { fill:#0f1a2a; stroke:#1e3a5f; }
+      38%     { fill:#022c22; stroke:#34d399; }
+      44%     { fill:#0f1a2a; stroke:#1e3a5f; }
+      100%    { fill:#0f1a2a; stroke:#1e3a5f; }
+    }
+
+    .sweep { animation: sweep 5.5s ease-in-out infinite; }
+    @keyframes sweep { 0%,100%{opacity:.05} 50%{opacity:.2} }
+
+    @media (prefers-reduced-motion: reduce) {
+      .seekPath,.probe,.hitLeaf,.rowLit,.scanHead,.seekN,.scanN,.cost { animation:none; opacity:1 }
+    }
+  </style>
+
+  <rect width="960" height="560" fill="url(#ixBg)"/>
+  <ellipse cx="480" cy="300" rx="440" ry="240" fill="#34d399" opacity=".03" class="sweep"/>
+
+  <text x="26" y="34" class="mono head">SEEK vs SCAN — what an index actually buys you</text>
+  <text x="26" y="54" class="mono sub">
+    Same query, same result. The only difference is how many 8 KB pages get touched.
+  </text>
+
+  <!-- ================= LEFT: SEEK ================= -->
+  <g transform="translate(26,86)">
+    <rect x="0" y="0" width="440" height="200" rx="10" fill="#071c17" stroke="#065f46"/>
+    <text x="16" y="26" class="mono" font-size="13" font-weight="700" fill="#6ee7b7">
+      INDEX SEEK
+    </text>
+    <text x="16" y="44" class="mono txt">
+      WHERE CountryID = 1
+    </text>
+
+    <!-- B+ tree, three levels -->
+    <g transform="translate(24,62)">
+      <rect x="0" y="0" width="392" height="30" rx="5" fill="url(#seekG)" stroke="#10b981"/>
+      <text x="196" y="20" class="mono" font-size="10.5" fill="#a7f3d0" text-anchor="middle">
+        root         1 … 25000 … 50000
+      </text>
+
+      <path class="seekPath" d="M92 30 C 92 52, 92 60, 92 76"
+            fill="none" stroke="#34d399" stroke-width="3"/>
+      <path class="seekPath" d="M196 106 C 196 128, 196 136, 196 152"
+            fill="none" stroke="#34d399" stroke-width="3"/>
+
+      <rect x="0" y="76" width="392" height="30" rx="5" fill="url(#seekG)" stroke="#10b981"/>
+      <text x="196" y="96" class="mono" font-size="10.5" fill="#a7f3d0" text-anchor="middle">
+        branch       ← key 1 lives in this range
+      </text>
+
+      <g class="probe">
+        <circle cx="92" cy="30" r="5" fill="#34d399"/>
+      </g>
+
+      <!-- leaf pages: exactly one is the target -->
+      <g transform="translate(0,152)">
+        <rect x="0"   y="0" width="86" height="26" rx="4" fill="#0c2e26" stroke="#065f46"/>
+        <rect class="hitLeaf" x="92"  y="0" width="86" height="26" rx="4"/>
+        <rect x="184"  y="0" width="86" height="26" rx="4" fill="#0c2e26" stroke="#065f46"/>
+        <rect x="276"  y="0" width="86" height="26" rx="4" fill="#0c2e26" stroke="#065f46"/>
+        <text x="43"  y="17" class="mono" font-size="9" fill="#4b7" text-anchor="middle">leaf</text>
+        <text x="135" y="17" class="mono" font-size="9.5" fill="#052e16" font-weight="700"
+              text-anchor="middle">← found</text>
+        <text x="227" y="17" class="mono" font-size="9" fill="#4b7" text-anchor="middle">leaf</text>
+        <text x="319" y="17" class="mono" font-size="9" fill="#4b7" text-anchor="middle">leaf</text>
+      </g>
+    </g>
+
+    <g class="seekN">
+      <text x="16" y="188" class="mono cnt">3</text>
+      <text x="34" y="186" class="mono stat">pages read</text>
+      <text x="150" y="186" class="mono txt">root → branch → leaf</text>
+      <text x="16" y="196" class="mono" font-size="9.5" fill="#4b7">
+        log₂N — grows slowly as the table grows
+      </text>
+    </g>
+  </g>
+
+  <!-- ================= RIGHT: SCAN ================= -->
+  <g transform="translate(494,86)">
+    <rect x="0" y="0" width="440" height="200" rx="10" fill="#1a0a0a" stroke="#7f1d1d"/>
+    <text x="16" y="26" class="mono" font-size="13" font-weight="700" fill="#fca5a5">
+      TABLE SCAN
+    </text>
+    <text x="16" y="44" class="mono txt">
+      no usable index → read every row
+    </text>
+
+    <g transform="translate(24,58)">
+      <!-- 8 rows x 3 cols grid -->
+      <g transform="translate(0,0)">
+        <g transform="translate(0,0)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(132,0)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(264,0)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(0,26)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(132,26)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(264,26)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(0,52)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(132,52)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(264,52)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(0,78)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(132,78)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(264,78)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(0,104)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(132,104)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(264,104)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(0,130)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(132,130)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+        <g transform="translate(264,130)"><rect class="rowLit" x="0"  y="0"   width="124" height="22" rx="3"/></g>
+
+        <!-- the answer, sitting in the middle of the pile -->
+        <rect x="132" y="78" width="124" height="22" rx="3" fill="#052e16" stroke="#34d399"/>
+        <text x="194" y="93" class="mono" font-size="9.5" fill="#a7f3d0" text-anchor="middle">
+          CountryID=1 ← here
+        </text>
+      </g>
+
+      <!-- sweeping readout head -->
+      <g class="scanHead">
+        <rect x="-4" y="-4" width="396" height="4" fill="#f87171" opacity=".7"/>
+        <rect x="-4" y="-1" width="396" height="28" fill="#f87171" opacity=".07"/>
+      </g>
+    </g>
+
+    <g class="scanN">
+      <text x="16" y="188" class="mono cnt" fill="#f87171">144</text>
+      <text x="48" y="186" class="mono stat">pages read</text>
+      <text x="16" y="196" class="mono" font-size="9.5" fill="#7f1d1d">
+        and it grows linearly with the table
+      </text>
+    </g>
+  </g>
+
+  <!-- ================= VS ARROW ================= -->
+  <g transform="translate(478,170)">
+    <text x="0" y="0" class="mono" font-size="13" font-weight="800" fill="#fbbf24">VS</text>
+    <text x="-4" y="20" class="mono" font-size="30" font-weight="800" fill="#34d399"
+          text-anchor="middle">48×</text>
+    <text x="-4" y="36" class="mono" font-size="9.5" fill="#64748b" text-anchor="middle">fewer pages</text>
+  </g>
+
+  <!-- ================= THE TRADE ================= -->
+  <g class="verdict" transform="translate(26,310)">
+    <rect x="0" y="0" width="440" height="118" rx="9" fill="#1a1408" stroke="#78350f"/>
+    <text x="16" y="26" class="mono" font-size="12.5" font-weight="700" fill="#fcd34d">
+      ⚠  BUT EVERY INDEX HAS A PRICE
+    </text>
+    <text x="16" y="50" class="mono" font-size="11" fill="#fbbf24">
+      Every index must be updated on every INSERT,</text>
+    <text x="16" y="66" class="mono" font-size="11" fill="#fbbf24">
+      UPDATE and DELETE.</text>
+    <text x="16" y="90" class="mono" font-size="11" fill="#fde68a">
+      Reads get faster. Writes get slower.</text>
+    <text x="16" y="108" class="mono" font-size="11" fill="#fde68a">
+      That trade-off is the whole discipline.</text>
+  </g>
+
+  <g class="verdict" transform="translate(494,310)">
+    <rect x="0" y="0" width="440" height="118" rx="9" fill="#0d1420" stroke="#1e3a5f"/>
+    <text x="16" y="26" class="mono" font-size="12.5" font-weight="700" fill="#7dd3fc">
+      IS AN INDEX ACTUALLY BEING USED?
+    </text>
+    <text x="16" y="48" class="mono" font-size="11" fill="#38bdf8">SELECT s.name, us.user_seeks, us.user_scans,</text>
+    <text x="16" y="64" class="mono" font-size="11" fill="#38bdf8">       us.last_user_seek</text>
+    <text x="16" y="80" class="mono" font-size="11" fill="#38bdf8">FROM   sys.indexes s</text>
+    <text x="16" y="96" class="mono" font-size="11" fill="#38bdf8">LEFT JOIN sys.dm_db_index_usage_stats us ON …;</text>
+    <text x="16" y="112" class="mono" font-size="9.5" fill="#64748b">
+      0 seeks AND 0 scans since restart → candidate for removal
+    </text>
+  </g>
+
+  <!-- ================= MEASURE IT ================= -->
+  <g class="verdict" transform="translate(26,452)">
+    <rect x="0" y="0" width="908" height="76" rx="9" fill="#071c17" stroke="#065f46"/>
+    <text x="16" y="24" class="mono" font-size="12" font-weight="700" fill="#6ee7b7">
+      PROVE IT, DON'T ASSUME IT
+    </text>
+    <text x="16" y="46" class="mono" font-size="11.5" fill="#a7f3d0">
+      SET STATISTICS IO ON;   →   compare <tspan fill="#34d399" font-weight="700">Logical reads</tspan> before and after.
+      If it drops from 400 to 4, the index worked.
+    </text>
+    <text x="16" y="66" class="mono" font-size="11" fill="#6ee7b7">
+      Then check the writes did not get worse — and if they did, write down why the index is still there.
+    </text>
+  </g>
+</svg>
