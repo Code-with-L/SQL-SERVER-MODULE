@@ -23,30 +23,25 @@
     .cntR { fill:#f87171; font-size:15px; font-weight:800; }
 
     /* the row the seek finds blazes once, then the loop resets */
-    .hitLeaf { animation: hit 9s ease-in-out infinite; }
-    @keyframes hit {
-      0%,32%  { fill:#0c2e26; stroke:#065f46; }
+    .hitLeaf { fill:#0c2e26; stroke:#065f46; }
+    
       36%     { fill:#34d399; stroke:#a7f3d0; }
       50%     { fill:#0c2e26; stroke:#065f46; }
     }
-    .seekPath { stroke-dasharray:90; stroke-dashoffset:90;
-                animation: dive 9s ease-in-out infinite; }
-    @keyframes dive { 0%,6%{stroke-dashoffset:90} 24%,88%{stroke-dashoffset:0} 96%,100%{stroke-dashoffset:90} }
+    .seekPath { stroke-dasharray:0; fill:none; stroke-width:2.5; stroke-linecap:round; opacity:1; }
+    
 
-    .scanBar { animation: sweepY 9s linear infinite; }
-    @keyframes sweepY {
-      0%,16%  { transform:translateY(0); opacity:0; }
+        
       20%     { opacity:.9; }
       88%     { transform:translateY(96px); opacity:.9; }
       94%,100%{ transform:translateY(96px); opacity:0; }
     }
 
-    .pop { animation: pop 9s ease-out infinite; }
-    @keyframes pop { 0%,30%{opacity:0; transform:scale(.6)} 36%{opacity:1; transform:scale(1)} 88%{opacity:1; transform:scale(1)} 96%,100%{opacity:0} }
+    .pop { fill:#052e16; stroke:#34d399; }
+    
 
     @media (prefers-reduced-motion: reduce) {
-      .hitLeaf,.seekPath,.scanBar,.pop { animation:none; opacity:1 }
-    }
+          }
   </style>
 
   <rect width="960" height="560" fill="url(#ixBg)"/>
@@ -123,12 +118,6 @@
       <rect class="pop" x="128" y="56" width="118" height="24" rx="4"
             fill="#052e16" stroke="#34d399"/>
       <text x="187" y="72" class="mono" font-size="10px" fill="#a7f3d0" text-anchor="middle">here</text>
-
-      <!-- scanning bar -->
-      <g class="scanBar">
-        <rect x="-5" y="-3" width="402" height="3" fill="#f87171"/>
-        <rect x="-5" y="0"  width="402" height="28" fill="#f87171" opacity=".08"/>
-      </g>
     </g>
 
     <text x="18" y="226" class="mono txt">144 pages must be read</text>
