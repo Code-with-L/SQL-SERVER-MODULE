@@ -193,9 +193,9 @@
   </circle>
 
   <!-- link labels -->
-  <text x="286" y="120" class="mono lbl legend">CountryID</text>
-  <text x="286" y="200" class="mono lbl legend">StateProvinceID</text>
-  <text x="286" y="300" class="mono lbl legend">AddressTypeID</text>
+  <text x="286" y="120" class="mono lbl legend">CID</text>
+  <text x="286" y="200" class="mono lbl legend">SPID</text>
+  <text x="286" y="300" class="mono lbl legend">ATID</text>
 
   <!-- legend -->
   <g class="legend" transform="translate(770,420)">

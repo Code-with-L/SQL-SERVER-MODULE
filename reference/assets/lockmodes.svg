@@ -215,34 +215,33 @@
 
     <rect x="16" y="38" width="46" height="26" rx="4" fill="#1e40af" stroke="#3b82f6"/>
     <text x="39" y="55" class="mono" font-size="9.5" fill="#c7d2fe" text-anchor="middle">KEY</text>
-    <text x="72" y="48" class="mono" font-size="10.5" fill="#94a3b8">one row — the most common</text>
-    <text x="72" y="62" class="mono" font-size="10.5" fill="#64748b">finest granularity, fewest conflicts</text>
+    <text x="72" y="48" class="mono" font-size="10.5" fill="#94a3b8">one row at a time</text>
+    <text x="72" y="62" class="mono" font-size="10.5" fill="#64748b">fewest conflicts</text>
 
     <rect x="16" y="70" width="46" height="26" rx="4" fill="#4338ca" stroke="#6366f1"/>
     <text x="39" y="87" class="mono" font-size="9.5" fill="#c7d2fe" text-anchor="middle">PAGE</text>
-    <text x="72" y="80" class="mono" font-size="10.5" fill="#94a3b8">8 KB — several rows at once</text>
-    <text x="72" y="94" class="mono" font-size="10.5" fill="#64748b">one untouched row still blocks its neighbours</text>
+    <text x="72" y="80" class="mono" font-size="10.5" fill="#94a3b8">8 KB, several rows</text>
+    <text x="72" y="94" class="mono" font-size="10.5" fill="#64748b">neighbours block each other</text>
 
     <rect x="240" y="38" width="46" height="26" rx="4" fill="#6d28d9" stroke="#a78bfa"/>
     <text x="263" y="55" class="mono" font-size="9.5" fill="#ddd6fe" text-anchor="middle">TABLE</text>
-    <text x="296" y="48" class="mono" font-size="10.5" fill="#94a3b8">whole table</text>
-    <text x="296" y="62" class="mono" font-size="10.5" fill="#64748b">ALTER TABLE, schema changes</text>
+    <text x="312" y="48" class="mono" font-size="10.5" fill="#94a3b8">whole table</text>
+    <text x="312" y="62" class="mono" font-size="10.5" fill="#64748b">ALTER TABLE</text>
 
     <rect x="240" y="70" width="46" height="26" rx="4" fill="#be185d" stroke="#f472b6"/>
     <text x="263" y="87" class="mono" font-size="9.5" fill="#fbcfe8" text-anchor="middle">DB</text>
-    <text x="296" y="80" class="mono" font-size="10.5" fill="#94a3b8">whole database</text>
-    <text x="296" y="94" class="mono" font-size="10.5" fill="#64748b">CREATE / ALTER DATABASE</text>
+    <text x="312" y="80" class="mono" font-size="10.5" fill="#94a3b8">whole database</text>
+    <text x="312" y="94" class="mono" font-size="10.5" fill="#64748b">CREATE / ALTER</text>
   </g>
 
   <!-- ================= footer ================= -->
   <g transform="translate(26,546)">
     <text x="0" y="0" class="mono" font-size="11" fill="#64748b">
-      See it live:
-    </text>
-    <text x="80" y="0" class="mono" font-size="11" fill="#7dd3fc">
+     See it live:</text>
+    <text x="112" y="0" class="mono" font-size="11" fill="#7dd3fc">
       SELECT * FROM sys.dm_tran_locks;
     </text>
-    <text x="330" y="0" class="mono" font-size="11" fill="#7c8595">
+    <text x="366" y="0" class="mono" font-size="11" fill="#7c8595">
       resource_type = KEY / PAGE / TABLE  ·  request_mode = S / U / X / IX
     </text>
   </g>

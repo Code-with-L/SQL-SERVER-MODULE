@@ -51,18 +51,17 @@
     /* the power-cut marker */
     .crash { animation: crash 14s ease-in-out infinite; }
     @keyframes crash {
-      0%,26%  { opacity:0; }
-      29%     { opacity:1; }
-      31%     { opacity:1; }
-      34%     { opacity:.35; }
-      100%    { opacity:0; }
+      0%,24%  { opacity:0; }
+      26%     { opacity:1; }
+      30%     { opacity:1; }
+      31%,100%{ opacity:0; }
     }
-    .survive { animation: survive 14s ease-in-out infinite; animation-delay:.3s; }
+    .survive { animation: survive 14s ease-in-out infinite; }
     @keyframes survive {
-      0%,27%  { opacity:.2; }
-      31%     { opacity:1; }
-      86%     { opacity:1; }
-      90%,100%{ opacity:.2; }
+      0%,33%  { opacity:0; }
+      36%     { opacity:1; }
+      85%     { opacity:1; }
+      90%,100%{ opacity:0; }
     }
 
     /* the undo record for the failed transaction */
@@ -161,12 +160,10 @@
     </text>
   </g>
 
-  <!-- travelling log record -->
+  <!-- travelling log record (a glowing highlight moving down the buffer) -->
   <g class="rec">
     <rect x="286" y="176" width="112" height="26" rx="5" fill="#fbbf24"
           stroke="#fde68a" filter="url(#walGlow)"/>
-    <text x="342" y="193" class="mono" font-size="10" font-weight="700"
-          fill="#422006" text-anchor="middle">flush LSN 41AC</text>
   </g>
 
   <!-- ============ THE DATA PAGE ============ -->
@@ -215,14 +212,8 @@
     </g>
 
     <g class="survive">
-      <text x="16" y="50" class="mono" font-size="11.5" fill="#4ade80">
+      <text x="16" y="72" class="mono" font-size="11.5" fill="#4ade80">
         But the log record is already safe on disk.
-      </text>
-    </g>
-
-    <g class="survive">
-      <text x="16" y="72" class="mono" font-size="11.5" fill="#86efac">
-        On restart, SQL Server replays the log and the COMMIT survives.
       </text>
     </g>
 
