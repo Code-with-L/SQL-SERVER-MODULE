@@ -23,30 +23,24 @@
     .colH { fill:#94a3b8; font-size:8px; font-weight:700; letter-spacing:0; }
 
     /* one row lights at a time, in order, then the loop resets */
-    .activeLevel { animation: fadeRow 25s ease-in-out infinite; }
-    @keyframes fadeRow {
-      0%  { opacity:.24; }
+    .activeLevel { opacity:1; }
+    
       2%  { opacity:1; }
       17% { opacity:1; }
       20% { opacity:.24; }
       100%{ opacity:.24; }
     }
-    .lv1 { animation-delay:0s; }
-    .lv2 { animation-delay:5s; }
-    .lv3 { animation-delay:10s; }
-    .lv4 { animation-delay:15s; }
-    .lv5 { animation-delay:20s; }
 
     .cellWarn { fill:#78350f; }
     .cellBad  { fill:#7f1d1d; }
     .cellGood { fill:#14532d; }
     .cellHalf { fill:#3f1d0a; }
 
-    .cursor { animation: blink 1s steps(1,end) infinite; }
-    @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    .cursor { opacity:1; }
+    
 
     @media (prefers-reduced-motion: reduce) {
-      .activeLevel,.cursor { animation:none; opacity:1 }
+      .activeLevel,.cursor { opacity:1 }
     }
   </style>
 
