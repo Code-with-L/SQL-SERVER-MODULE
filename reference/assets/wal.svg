@@ -73,13 +73,13 @@
       88%,100%{ opacity:0; transform:translateX(-12px); }
     }
 
-    .pulse { animation: pulse 2.4s ease-in-out infinite; }
+    .pulse { opacity:1;; }
     @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
     .spin { animation: spin 3s linear infinite; transform-origin:490px 480px; }
     @keyframes spin { to { transform:rotate(360deg) } }
 
-    .tick { animation: fadeIn 1s ease-out both; }
+    .tick { opacity:1;; }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
     @media (prefers-reduced-motion: reduce) {

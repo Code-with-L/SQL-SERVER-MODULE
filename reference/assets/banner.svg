@@ -134,9 +134,9 @@
     @keyframes bandB { 0%,100%{opacity:.30} 50%{opacity:.95} }
 
     /* window chrome */
-    .dot1 { animation: pulse 2.0s ease-in-out infinite; }
-    .dot2 { animation: pulse 2.0s ease-in-out .28s infinite; }
-    .dot3 { animation: pulse 2.0s ease-in-out .56s infinite; }
+    .dot1 { opacity:1;; }
+    .dot2 { opacity:1;; }
+    .dot3 { opacity:1;; }
     @keyframes pulse { 0%,100%{opacity:.32} 50%{opacity:1} }
 
     /* status pips on the right of each row */

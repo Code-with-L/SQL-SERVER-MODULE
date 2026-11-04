@@ -83,7 +83,7 @@
       96%,100%{ opacity:.18; }
     }
 
-    .legend { animation: fadeIn 1s ease-out both; }
+    .legend { opacity:1;; }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
     .spinner { animation: spin 2.2s linear infinite; transform-origin:806px 548px; }

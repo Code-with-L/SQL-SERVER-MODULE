@@ -66,7 +66,7 @@
     @keyframes sz2 { 0%,6%{opacity:.35} 14%{opacity:.35} 30%,90%{opacity:1} 96%,100%{opacity:.35} }
 
     /* headline stat */
-    .stat { animation: statPop 14s ease-in-out infinite; }
+    .stat { opacity:1;; }
     @keyframes statPop {
       0%,5%   { opacity:.4; transform:scale(.96); }
       8%      { opacity:1; transform:scale(1); }

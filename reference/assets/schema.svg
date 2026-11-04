@@ -54,8 +54,8 @@
                               breathe 3.4s ease-in-out 2.3s infinite; }
     @keyframes breathe { 0%,100%{ filter:none } 50%{ filter:drop-shadow(0 0 12px rgba(236,72,153,.75)) } }
 
-    .title { animation: fadeIn .7s ease-out both; }
-    .legend { animation: fadeIn .7s ease-out .9s both; }
+    .title { opacity:1;; }
+    .legend { opacity:1;; }
     @keyframes fadeIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
 
     .rowCursor { animation: blink 1.1s steps(1,end) infinite; }
@@ -210,11 +210,10 @@
     <text x="14" y="112" class="mono" font-size="10" fill="#64748b">live packets →</text>
   </g>
 
-  <!-- animated row counter, like a SELECT COUNT(*) -->
-  <g class="title" transform="translate(40,505)">
-    <text x="0" y="0" class="mono" font-size="11.5" fill="#475569">
+  <!-- plain caption in the free space bottom-left -->
+  <g transform="translate(40,548)">
+    <text x="0" y="0" class="mono" font-size="11" fill="#475569">
       <tspan fill="#38bdf8">SELECT</tspan> COUNT(*) <tspan fill="#38bdf8">FROM</tspan> dbo.CustomerToCustomerAddress;
     </text>
-    <rect x="238" y="-11" width="8" height="13" class="rowCursor"/>
   </g>
 </svg>
