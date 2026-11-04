@@ -5,7 +5,7 @@
 ### *A guided walkthrough of Microsoft SQL Server — administration, tables, snapshots, replication & performance.*
 
 <p align="center">
-  <img src="assets/banner.svg" alt="SQL Server Module — animated terminal showing instance details" width="900">
+  <img src="reference/assets/banner.svg" alt="SQL Server Module — animated terminal showing instance details" width="900">
 </p>
 
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2025-CC2927?style=for-the-badge&logo=microsoftsqlserver)
@@ -74,8 +74,8 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Windows vs Mixed authentication
 - [ ] Collation in depth & per-column collation
 
-**Scripts:** [`sql/01_databases/`](sql/01_databases) ·
-**Notes:** [Manual 1](notes/01_manual_1_installation.md)
+**Scripts:** [`reference/scripts/01_databases/`](reference/scripts/01_databases) ·
+**Notes:** [Manual 1](reference/notes/01_manual_1_installation.md)
 
 ### Part 2 — Tables & Database Objects `◔`
 - [ ] Data types & the 7 categories
@@ -89,9 +89,9 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Computed columns (`AS (...)`)
 - [ ] Permissions and `GRANT`
 
-**Scripts:** [`sql/02_tables/`](sql/02_tables) ·
-[`sql/03_security/`](sql/03_security) ·
-**Notes:** [Manual 2](notes/02_manual_2_tables.md)
+**Scripts:** [`reference/scripts/02_tables/`](reference/scripts/02_tables) ·
+[`reference/scripts/03_security/`](reference/scripts/03_security) ·
+**Notes:** [Manual 2](reference/notes/02_manual_2_tables.md)
 
 ### Part 3 — Snapshots & Replication `⬜`
 - [ ] Database snapshots
@@ -101,12 +101,12 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Replication agents
 
 <p align="center">
-  <img src="assets/copyonwrite.svg" alt="Animated copy-on-write: the snapshot starts at 8 MB and grows only as the source database's pages change" width="100%">
+  <img src="reference/assets/copyonwrite.svg" alt="Animated copy-on-write: the snapshot starts at 8 MB and grows only as the source database's pages change" width="100%">
 </p>
 
-**Scripts:** [`sql/04_snapshots/`](sql/04_snapshots) ·
-[`sql/05_replication/`](sql/05_replication) ·
-**Notes:** [Manual 3](notes/03_manual_3_snapshots_replication.md)
+**Scripts:** [`reference/scripts/04_snapshots/`](reference/scripts/04_snapshots) ·
+[`reference/scripts/05_replication/`](reference/scripts/05_replication) ·
+**Notes:** [Manual 3](reference/notes/03_manual_3_snapshots_replication.md)
 
 ### Part 4 — Monitoring & Troubleshooting `⬜`
 - [ ] SQL Server Profiler
@@ -118,15 +118,15 @@ Built strictly from the four lecturer manuals, in dependency order.
 - [ ] Database Engine Tuning Advisor
 
 <p align="center">
-  <img src="assets/deadlock.svg" alt="Animated deadlock: two transactions each hold a lock the other needs, forming a cycle, then SQL Server rolls back the cheaper transaction as victim" width="100%">
+  <img src="reference/assets/deadlock.svg" alt="Animated deadlock: two transactions each hold a lock the other needs, forming a cycle, then SQL Server rolls back the cheaper transaction as victim" width="100%">
 </p>
 
 <p align="center">
-  <img src="assets/isolation.svg" alt="Animated isolation level matrix: how each of the five levels handles dirty reads, non-repeatable reads, phantoms, lost updates and blocking" width="100%">
+  <img src="reference/assets/isolation.svg" alt="Animated isolation level matrix: how each of the five levels handles dirty reads, non-repeatable reads, phantoms, lost updates and blocking" width="100%">
 </p>
 
-**Scripts:** [`sql/06_monitoring/`](sql/06_monitoring) ·
-**Notes:** [Manual 4](notes/04_manual_4_monitoring.md)
+**Scripts:** [`reference/scripts/06_monitoring/`](reference/scripts/06_monitoring) ·
+**Notes:** [Manual 4](reference/notes/04_manual_4_monitoring.md)
 
 ---
 
@@ -135,7 +135,7 @@ Built strictly from the four lecturer manuals, in dependency order.
 Six permanent tables, following the lecturer's specification.
 
 <p align="center">
-  <img src="assets/schema.svg" alt="Animated ER diagram: three lookup tables feed CustomerAddress, and Customer plus CustomerAddress are joined by the CustomerToCustomerAddress junction table" width="100%">
+  <img src="reference/assets/schema.svg" alt="Animated ER diagram: three lookup tables feed CustomerAddress, and Customer plus CustomerAddress are joined by the CustomerToCustomerAddress junction table" width="100%">
 </p>
 
 ### 🧠 Why the junction table exists
@@ -162,77 +162,92 @@ relationship in every database you will ever meet follows this pattern.
 
 ```text
 SQL-SERVER-MODULE/
-├── .gitignore              # secrets, *.bak/*.mdf/*.ldf, VS junk, manuals/
-├── README.md               # this file
-├── assets/                # 11 hand-written animated SVGs (no JS, no GIFs)
-│   ├── logo.svg           # compact animated logo
-│   ├── banner.svg         # animated terminal header
-│   ├── schema.svg         # animated ER diagram
-│   ├── codeeditor.svg     # animated CREATE TABLE typing
-│   ├── gitlog.svg         # animated git log + recovery
-│   ├── copyonwrite.svg    # animated snapshot copy-on-write
-│   ├── deadlock.svg       # animated deadlock cycle + victim
-│   ├── isolation.svg      # animated isolation level matrix
-│   ├── lockmodes.svg      # animated S/U/X lock compatibility
-│   ├── wal.svg            # animated write-ahead logging
-│   └── seekvscan.svg      # animated index seek vs table scan
-├── notes/                  # teaching notes, one per lecturer manual
-│   ├── 01_manual_1_installation.md
-│   ├── 02_manual_2_tables.md
-│   ├── 03_manual_3_snapshots_replication.md
-│   ├── 04_manual_4_monitoring.md
-│   └── 05_exercises_and_answers.md
-└── sql/
-    ├── 01_databases/       # Part 1  — CREATE DATABASE, filegroups, instances
-    ├── 02_tables/          # Part 2  — CREATE TABLE, types, IDENTITY, temp tables
-    ├── 03_security/        # Part 2  — GRANT, REVOKE, DENY, roles
-    ├── 04_snapshots/       # Part 3  — create / read / drop database snapshots
-    ├── 05_replication/     # Part 3  — types, agents, inspection queries
-    └── 06_monitoring/      # Part 4  — locks, blocking, deadlocks, isolation
+├── README.md                  # this file
+├── practice/                  # ▶ YOUR WORK — scripts & notes you write yourself
+│   ├── README.md              # how to use it, what belongs here
+│   └── .gitkeep               # holds the empty folder in Git
+├── reference/                 # 📘 THE TEXTBOOK — course material, not your work
+│   ├── notes/                 # teaching notes, one per lecturer manual
+│   │   ├── 01_manual_1_installation.md
+│   │   ├── 02_manual_2_tables.md
+│   │   ├── 03_manual_3_snapshots_replication.md
+│   │   ├── 04_manual_4_monitoring.md
+│   │   └── 05_exercises_and_answers.md
+│   ├── scripts/               # annotated example scripts, Parts 1–4
+│   │   ├── 01_databases/      # Part 1 — CREATE DATABASE, filegroups, instances
+│   │   ├── 02_tables/         # Part 2 — CREATE TABLE, types, IDENTITY, temp tables
+│   │   ├── 03_security/       # Part 2 — GRANT, REVOKE, DENY, roles
+│   │   ├── 04_snapshots/      # Part 3 — create / read / drop snapshots
+│   │   ├── 05_replication/    # Part 3 — types, agents, inspection queries
+│   │   └── 06_monitoring/     # Part 4 — locks, blocking, deadlocks, isolation
+│   └── assets/                # 11 animated SVG diagrams (no JS, no GIFs)
+│       ├── logo.svg ├── banner.svg ├── schema.svg ├── codeeditor.svg
+│       ├── gitlog.svg ├── copyonwrite.svg ├── deadlock.svg ├── isolation.svg
+│       ├── lockmodes.svg ├── wal.svg └── seekvscan.svg
+└── manuals/                   # ❌ not committed — Microsoft PDFs, kept local
+```
+
+### Two folders, one job each
+
+| Folder | What lives there | How to read it |
+|---|---|---|
+| **`practice/`** | **Your** work — your scripts, your exercises, your fixes as you learn | 👈 **Read this first** |
+| `reference/` | The textbook I built from your lecturer's manuals | Study alongside the manuals |
+
+**Read `practice/` first if you want to see what you built.** Read `reference/`
+first if you want to understand the material.
+
+Your own commits will fill `practice/` over time. The reference stays as it is —
+it's the textbook, not the exam paper. The commit that turns this from *my*
+repository into *yours* looks like:
+
+```bash
+git add practice/01_databases/01-create-student-records-db.sql
+git commit -m "practice: create StudentRecordsDB myself"
 ```
 
 ## 🎬 Animated Diagrams
 
-All four graphics in this README are hand-written SVG with embedded CSS and SMIL
+All eleven graphics in this README are hand-written SVG with embedded CSS and SMIL
 animation. **No JavaScript, no GIFs, no external services, nothing that phones
 home.**
 
 | Asset | What it shows | Animations |
 |---|---|---|
-| [`banner.svg`](assets/banner.svg) | Terminal typing your live instance details | typewriter reveal, blinking caret, floating cylinder, rotating ring, pulsing dots |
-| [`schema.svg`](assets/schema.svg) | The six-table ER diagram | boxes spring in, FK lines draw themselves, packets travel along them, junction table breathes |
-| [`codeeditor.svg`](assets/codeeditor.svg) | Editor typing `CREATE TABLE dbo.Country` | line-by-line typewriter, caret tracks each line, minimap viewport slides, success toast pops |
-| [`gitlog.svg`](assets/gitlog.svg) | `git log --graph`, then recovering `SALES.sql` | commits slide up the spine, dashed spine marches, glow breathes |
-| [`copyonwrite.svg`](assets/copyonwrite.svg) | Why a 400 GB snapshot takes one second | changed pages flash red and get copied, snapshot grid fills in, size counters tick 8 MB → 1.4 GB, clock spins |
-| [`deadlock.svg`](assets/deadlock.svg) | Two transactions forming a cycle | locks grab in sequence, wait states appear, cycle arcs draw, badge spins, victim struck out, `Msg 1205` slides in |
-| [`isolation.svg`](assets/isolation.svg) | The five isolation levels vs four anomalies | highlight slides across rows in sync with the master clock, callouts cross-fade, caret blinks |
-| [`lockmodes.svg`](assets/lockmodes.svg) | The S/U/X compatibility matrix | an orange wash sweeps the grid lighting each cell, the U/U cell pulses orange, callout fades in |
-| [`wal.svg`](assets/wal.svg) | Write-ahead logging | log record flushes before the page changes, power-cut marker hits, undo record fades in, hand sweeps the clock |
-| [`seekvscan.svg`](assets/seekvscan.svg) | Index seek vs table scan | a probe dives the B+ tree to one leaf, a red bar sweeps every row of a scan, counters light up |
-| [`logo.svg`](assets/logo.svg) | Compact animated logo | three orbits spin at different rates, cylinder bobs, data bands pulse, keywords light up in sequence |
+| [`banner.svg`](reference/assets/banner.svg) | Terminal typing your live instance details | typewriter reveal, blinking caret, floating cylinder, rotating ring, pulsing dots |
+| [`schema.svg`](reference/assets/schema.svg) | The six-table ER diagram | boxes spring in, FK lines draw themselves, packets travel along them, junction table breathes |
+| [`codeeditor.svg`](reference/assets/codeeditor.svg) | Editor typing `CREATE TABLE dbo.Country` | line-by-line typewriter, caret tracks each line, minimap viewport slides, success toast pops |
+| [`gitlog.svg`](reference/assets/gitlog.svg) | `git log --graph`, then recovering `SALES.sql` | commits slide up the spine, dashed spine marches, glow breathes |
+| [`copyonwrite.svg`](reference/assets/copyonwrite.svg) | Why a 400 GB snapshot takes one second | changed pages flash red and get copied, snapshot grid fills in, size counters tick 8 MB → 1.4 GB, clock spins |
+| [`deadlock.svg`](reference/assets/deadlock.svg) | Two transactions forming a cycle | locks grab in sequence, wait states appear, cycle arcs draw, badge spins, victim struck out, `Msg 1205` slides in |
+| [`isolation.svg`](reference/assets/isolation.svg) | The five isolation levels vs four anomalies | highlight slides across rows in sync with the master clock, callouts cross-fade, caret blinks |
+| [`lockmodes.svg`](reference/assets/lockmodes.svg) | The S/U/X compatibility matrix | an orange wash sweeps the grid lighting each cell, the U/U cell pulses orange, callout fades in |
+| [`wal.svg`](reference/assets/wal.svg) | Write-ahead logging | log record flushes before the page changes, power-cut marker hits, undo record fades in, hand sweeps the clock |
+| [`seekvscan.svg`](reference/assets/seekvscan.svg) | Index seek vs table scan | a probe dives the B+ tree to one leaf, a red bar sweeps every row of a scan, counters light up |
+| [`logo.svg`](reference/assets/logo.svg) | Compact animated logo | three orbits spin at different rates, cylinder bobs, data bands pulse, keywords light up in sequence |
 
 <p align="center">
-  <img src="assets/codeeditor.svg" alt="Animated code editor typing CREATE TABLE dbo.Country" width="100%">
+  <img src="reference/assets/codeeditor.svg" alt="Animated code editor typing CREATE TABLE dbo.Country" width="100%">
 </p>
 
 <p align="center">
-  <img src="assets/deadlock.svg" alt="Animated deadlock formation and victim selection" width="100%">
+  <img src="reference/assets/deadlock.svg" alt="Animated deadlock formation and victim selection" width="100%">
 </p>
 
 <p align="center">
-  <img src="assets/lockmodes.svg" alt="Animated lock mode compatibility matrix, highlighting the surprising Update-vs-Update wait" width="100%">
+  <img src="reference/assets/lockmodes.svg" alt="Animated lock mode compatibility matrix, highlighting the surprising Update-vs-Update wait" width="100%">
 </p>
 
 <p align="center">
-  <img src="assets/wal.svg" alt="Animated write-ahead logging: the log record is flushed before the data page changes, so a committed transaction survives a power cut" width="100%">
+  <img src="reference/assets/wal.svg" alt="Animated write-ahead logging: the log record is flushed before the data page changes, so a committed transaction survives a power cut" width="100%">
 </p>
 
 <p align="center">
-  <img src="assets/seekvscan.svg" alt="Animated comparison of an index seek reading 3 pages against a table scan reading 144" width="100%">
+  <img src="reference/assets/seekvscan.svg" alt="Animated comparison of an index seek reading 3 pages against a table scan reading 144" width="100%">
 </p>
 
 <p align="center">
-  <img src="assets/logo.svg" alt="SQL Server Module animated logo" width="900">
+  <img src="reference/assets/logo.svg" alt="SQL Server Module animated logo" width="900">
 </p>
 
 ### Why inline SVG and not CSS in the markdown?
@@ -288,7 +303,7 @@ are expected and correct.
 ## 🔀 Git Workflow
 
 <p align="center">
-  <img src="assets/gitlog.svg" alt="Animated terminal: git log output scrolling, then git show recovering a deleted file from commit cdd6efb" width="100%">
+  <img src="reference/assets/gitlog.svg" alt="Animated terminal: git log output scrolling, then git show recovering a deleted file from commit cdd6efb" width="100%">
 </p>
 
 ```bash
@@ -328,7 +343,7 @@ above.
 
 ## 🧪 Exercises
 
-**[`notes/05_exercises_and_answers.md`](notes/05_exercises_and_answers.md)** —
+**[`reference/notes/05_exercises_and_answers.md`](reference/notes/05_exercises_and_answers.md)** —
 20 exercises across five difficulty levels, from `DB_NAME()` basics to deadlocks
 and lost updates. Answers are in collapsible sections so you cannot see them
 by accident.
@@ -347,10 +362,10 @@ by accident.
 
 | Manual | Topic | Notes |
 |---|---|---|
-| 1 | Installation, editions, instances, authentication, collation | [Open](notes/01_manual_1_installation.md) |
-| 2 | Tables, data types, temp tables, permissions, `GRANT` | [Open](notes/02_manual_2_tables.md) |
-| 3 | Database snapshots and replication | [Open](notes/03_manual_3_snapshots_replication.md) |
-| 4 | Profiler, locking, deadlocks, isolation levels | [Open](notes/04_manual_4_monitoring.md) |
+| 1 | Installation, editions, instances, authentication, collation | [Open](reference/notes/01_manual_1_installation.md) |
+| 2 | Tables, data types, temp tables, permissions, `GRANT` | [Open](reference/notes/02_manual_2_tables.md) |
+| 3 | Database snapshots and replication | [Open](reference/notes/03_manual_3_snapshots_replication.md) |
+| 4 | Profiler, locking, deadlocks, isolation levels | [Open](reference/notes/04_manual_4_monitoring.md) |
 
 Each note file is written **from the lecturer manual's own outline**, with the
 manuals' terminology, plus the 2005 → 2025 differences called out where they
