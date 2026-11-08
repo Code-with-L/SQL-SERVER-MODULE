@@ -1,134 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="100%" height="360" role="img" aria-label="SQL Server Module: a soft editorial collage banner">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="100%" height="360" role="img"
+     aria-label="SQL Server Module: black obsidian minimal banner">
   <defs>
-    <!-- paper -->
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#fdf6ea"/>
-      <stop offset="55%" stop-color="#f8eedd"/>
-      <stop offset="100%" stop-color="#f3e4cf"/>
+    <linearGradient id="obsidian" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0e13"/>
+      <stop offset="55%" stop-color="#10141c"/>
+      <stop offset="100%" stop-color="#080a0f"/>
     </linearGradient>
-    <!-- blue-to-purple ribbon -->
-    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#8ea9e6"/>
-      <stop offset="45%" stop-color="#8d84d8"/>
-      <stop offset="100%" stop-color="#c97aa6"/>
+    <linearGradient id="sqlAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7da2ff"/>
+      <stop offset="100%" stop-color="#b19aff"/>
     </linearGradient>
-    <linearGradient id="disc" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#8b8fe5"/>
-      <stop offset="55%" stop-color="#6f7fca"/>
-      <stop offset="100%" stop-color="#4d5ca8"/>
+    <linearGradient id="discG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c9d6ff"/>
+      <stop offset="55%" stop-color="#6e7cff"/>
+      <stop offset="100%" stop-color="#3b4bd8"/>
     </linearGradient>
-    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#4a3f35" flood-opacity="0.22"/>
-    </filter>
-    <filter id="paperShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#4a3f35" flood-opacity="0.18"/>
-    </filter>
-    <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.83  0 0 0 0 0.74  0 0 0 0 0.6  0 0 0 0.05 0"/>
-      <feComposite in2="SourceGraphic" operator="over"/>
-    </filter>
-    <clipPath id="frame"><rect x="0" y="0" width="900" height="360" rx="16"/></clipPath>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#7da2ff" stop-opacity="0.22"/>
+      <stop offset="60%" stop-color="#7da2ff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#7da2ff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame"><rect x="0" y="0" width="900" height="360" rx="14"/></clipPath>
   </defs>
 
   <g clip-path="url(#frame)">
-    <rect width="900" height="360" fill="url(#paper)"/>
+    <rect width="900" height="360" fill="url(#obsidian)"/>
 
-    <!-- soft watercolor washes: blue / lilac / blush -->
-    <ellipse cx="120" cy="330" rx="260" ry="120" fill="#a9c4ef" opacity=".34"/>
-    <ellipse cx="810" cy="40" rx="240" ry="130" fill="#cbb4e3" opacity=".42"/>
-    <ellipse cx="820" cy="330" rx="180" ry="90" fill="#f3c9c0" opacity=".40"/>
-    <ellipse cx="470" cy="-40" rx="220" ry="110" fill="#bcd3ee" opacity=".30"/>
+    <!-- one soft halo behind the database mark: obsidian mineral glow -->
+    <ellipse cx="196" cy="178" rx="150" ry="112" fill="url(#halo)"/>
 
-    <!-- grain overlay for paper feel -->
-    <rect width="900" height="360" fill="transparent" filter="url(#grain)" opacity=".55"/>
+    <!-- hairline light sweep, almost invisible -->
+    <rect x="0" y="168" width="900" height="1" fill="#7da2ff" opacity="0.10"/>
 
-    <!-- ===== decorative arch sparkles (very Pinterest) ===== -->
-    <g fill="none" stroke="#b79adb" stroke-width="1.4" opacity=".55">
-      <path d="M70 66 a26 26 0 0 1 52 0 a26 26 0 0 1 52 0" />
-      <circle cx="760" cy="80" r="3.5" fill="#b79adb" stroke="none"/>
-      <circle cx="790" cy="120" r="2.4" fill="#7aa1d8" stroke="none"/>
-      <circle cx="742" cy="124" r="2" fill="#e0a7b8" stroke="none"/>
-    </g>
-
-    <!-- ===== big paper card ===== -->
-    <g filter="url(#soft)">
-      <rect x="34" y="34" width="832" height="292" rx="14" fill="#fffaf0" stroke="#e5d5bd" stroke-width="1.5"/>
-    </g>
-
-    <!-- blue-purple ribbon band at top -->
+    <!-- ============ database mark: minimal, matte black ============ -->
     <g>
-      <path d="M34 58 Q 450 18 866 58 L866 34 Q450 14 34 34 Z" fill="url(#ribbon)" opacity=".95"/>
+      <!-- concentric etch rings -->
+      <circle cx="196" cy="178" r="86" fill="none" stroke="#3b425a" stroke-width="1.2"/>
+      <circle cx="196" cy="178" r="104" fill="none" stroke="#232a3c" stroke-width="1" stroke-dasharray="2 10" opacity=".7"/>
+      <circle cx="196" cy="178" r="70" fill="none" stroke="#6e7cff" stroke-width="1.4" opacity=".55"/>
+
+      <!-- deep slate cylinder -->
+      <ellipse cx="196" cy="146" rx="44" ry="15" fill="url(#discG)"/>
+      <path d="M152 146 v56 a44 15 0 0 0 88 0 v-56 z" fill="#151a26" stroke="#6e7cff" stroke-width="1.6"/>
+      <path d="M152 146 v56 a44 15 0 0 0 88 0 v-56" fill="none" stroke="#aabfff" stroke-width="1.2"/>
+      <ellipse cx="196" cy="146" rx="44" ry="15" fill="none" stroke="#c9d6ff" stroke-width="1.6"/>
+      <path d="M152 168 a44 15 0 0 0 88 0" fill="none" stroke="#3f66ff" stroke-width="1" opacity=".5"/>
+      <path d="M152 188 a44 15 0 0 0 88 0" fill="none" stroke="#3f66ff" stroke-width="1" opacity=".35"/>
+      <path d="M172 160 h48" stroke="#e6ecff" stroke-width="2" stroke-linecap="round" opacity=".72"/>
+      <path d="M176 180 h40" stroke="#aabfff" stroke-width="2" stroke-linecap="round" opacity=".4"/>
+
+      <!-- small status dot -->
+      <circle cx="196" cy="136" r="4.5" fill="#5eead4"/>
+      <circle cx="196" cy="136" r="11" fill="none" stroke="#5eead4" stroke-width="1" opacity=".35"/>
     </g>
 
-    <!-- ===== title block ===== -->
+    <!-- ============ title, restrained sans ============ -->
     <g>
-      <text x="78" y="118" font-family="Georgia,'Palatino Linotype','Times New Roman',serif" font-size="54" font-weight="700" fill="#2e3e6e" letter-spacing="1">
-        SQL SERVER
+      <text x="300" y="158" font-family="'Segoe UI',Arial,sans-serif" font-size="46" font-weight="700" letter-spacing="2.5" fill="#edf1ff">
+        SQL <tspan fill="url(#sqlAccent)">SERVER</tspan>
       </text>
-      <text x="82" y="146" font-family="Georgia,'Palatino Linotype','Times New Roman',serif" font-size="19" font-style="italic" fill="#c97aa6" letter-spacing="7">
+      <text x="302" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="11" fill="#8fa2c8">
         MODULE
       </text>
-      <text x="84" y="176" font-family="Georgia,'Palatino Linotype','Times New Roman',serif" font-size="13.5" font-style="italic" fill="#8a7a5f">
-        a small, soft place to learn database things
-      </text>
-
-      <!-- torn-paper tagline strip -->
-      <g transform="rotate(-1.2 82 206)">
-        <rect x="82" y="192" width="356" height="30" rx="3" fill="#eadbe2" stroke="#d9bfd2"/>
-        <text x="96" y="212" font-family="'Segoe UI',Arial,sans-serif" font-size="11.5" letter-spacing="1.2" fill="#8d5a74">
-          TABLES · SELECT · INSERT · JOIN · IDENTITY
-        </text>
-      </g>
+      <rect x="302" y="204" width="74" height="1.6" fill="url(#sqlAccent)"/>
     </g>
 
-    <!-- ===== hand-drawn database illustration ===== -->
-    <g transform="translate(660,176)">
-      <!-- wobble strokes: cylinders drawn as slightly irregular ellipses -->
-      <path d="M40 18 C 60 4, 96 4, 116 18 C 124 30, 124 40, 116 52
-               C 96 66, 60 66, 40 52 C 32 40, 32 30, 40 18 Z"
-            fill="url(#disc)" stroke="#3f4f8a" stroke-width="2"/>
-      <ellipse cx="78" cy="52" rx="38" ry="12.5" fill="#7f92d2" stroke="#3f4f8a" stroke-width="1.6"/>
-      <ellipse cx="78" cy="74" rx="41" ry="13" fill="#687dc0" stroke="#3f4f8a" stroke-width="1.6"/>
-      <ellipse cx="78" cy="96" rx="43" ry="13.5" fill="#556eb4" stroke="#3f4f8a" stroke-width="1.6"/>
-      <ellipse cx="78" cy="18" rx="38" ry="12.5" fill="none" stroke="#33418f" stroke-width="1.4"/>
-      <!-- data lines -->
-      <path d="M56 48 h44" stroke="#e4ebff" stroke-width="3" stroke-linecap="round" opacity=".85"/>
-      <path d="M50 74 h56" stroke="#e4ebff" stroke-width="3" stroke-linecap="round" opacity=".6"/>
-      <path d="M46 96 h64" stroke="#e4ebff" stroke-width="3" stroke-linecap="round" opacity=".4"/>
-    </g>
-
-    <!-- ===== pinned cards with SQL snippets ===== -->
-    <g transform="rotate(-2 122 306)">
-      <rect x="78" y="278" width="244" height="48" rx="8" fill="#ffffff" stroke="#e5d5bd" filter="url(#paperShadow)"/>
-      <rect x="146" y="268" width="56" height="14" rx="2" fill="#d9c7e8" transform="rotate(-4 174 275)" opacity=".9"/>
-      <text x="92" y="297" font-family="'Cascadia Code',Consolas,monospace" font-size="11.5" fill="#4d5ca8">CREATE TABLE dbo.Country (</text>
-      <text x="92" y="314" font-family="'Cascadia Code',Consolas,monospace" font-size="11" fill="#8a7a5f">CountryID int IDENTITY(1,1)</text>
-    </g>
-
-    <g transform="rotate(1.4 520 310)">
-      <rect x="376" y="284" width="288" height="50" rx="8" fill="#ffffff" stroke="#e5d5bd" filter="url(#paperShadow)"/>
-      <rect x="486" y="274" width="56" height="14" rx="2" fill="#bcd7f0" transform="rotate(3 514 281)" opacity=".9"/>
-      <text x="390" y="304" font-family="'Cascadia Code',Consolas,monospace" font-size="11.5" fill="#4d5ca8">SELECT * FROM dbo.Departments;</text>
-      <text x="390" y="321" font-family="'Cascadia Code',Consolas,monospace" font-size="11" fill="#8a7a5f">-- hello, Engineering &amp; Sales</text>
-    </g>
-
-    <!-- heart 'save' sticker -->
-    <g transform="rotate(-8 700 300)">
-      <circle cx="700" cy="300" r="20" fill="#e2607d" stroke="#c44f68" stroke-width="1.6"/>
-      <path d="M700 288 c-2-4-9-4-10 1-1 4 3 7 10 12 7-5 11-8 10-12-1-5-8-5-10-1z" fill="#fff3f6"/>
-      <text x="700" y="333" font-family="'Segoe UI',Arial,sans-serif" font-size="10" font-weight="600" fill="#8d5a74" text-anchor="middle">save for later</text>
-    </g>
-
-    <!-- ===== bottom footnote: the course map as a calm ribbon ===== -->
+    <!-- ============ tiny terminal card, flat and quiet ============ -->
     <g>
-      <rect x="34" y="328" width="832" height="26" rx="6" fill="#2e3e6e"/>
-      <text x="450" y="345" font-family="'Segoe UI',Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="#e7edff" text-anchor="middle">
-        editions · instances · data types · tables · temp tables · snapshots · replication · locking · deadlocks
+      <rect x="302" y="228" width="540" height="84" rx="10" fill="#0d1117" stroke="#232a3a" stroke-width="1"/>
+      <circle cx="326" cy="254" r="5" fill="#ff5f57"/>
+      <circle cx="346" cy="254" r="5" fill="#febc2e"/>
+      <circle cx="366" cy="254" r="5" fill="#28c840"/>
+
+      <text x="420" y="258" font-family="'Cascadia Mono',Consolas,monospace" font-size="11.5" fill="#8a94ad">
+        StudentRecordsDB
+      </text>
+
+      <text x="326" y="288" font-family="'Cascadia Mono',Consolas,monospace" font-size="12" fill="#e6edff">
+        <tspan fill="#7ee787">➜</tspan> <tspan fill="#9ec1ff">sqlcmd</tspan> -S localhost -E
+      </text>
+      <text x="326" y="306" font-family="'Cascadia Mono',Consolas,monospace" font-size="11" fill="#7c869e">
+        Instance MSSQLSERVER (default)  ·  Windows Authentication
       </text>
     </g>
 
-    <!-- subtle top highlight for the card -->
-    <rect x="34" y="34" width="832" height="2" rx="1" fill="#ffffff" opacity=".5"/>
+    <!-- ============ whisper footer ============ -->
+    <text x="450" y="338" font-family="'Segoe UI',Arial,sans-serif" font-size="10.5" letter-spacing="2.2" fill="#5f6880" text-anchor="middle">
+      editions · instances · data types · tables · snapshots · replication · locking
+    </text>
   </g>
+
+  <rect x=".7" y=".7" width="898.6" height="358.6" rx="13.3" fill="none" stroke="#202634" stroke-width="1.4"/>
 </svg>

@@ -214,7 +214,7 @@ home.**
 
 | Asset | What it shows | Animations |
 |---|---|---|
-| [`banner.svg`](reference/assets/banner.svg) | Pinterest-style collage banner | static editorial card, blue-purple ribbon, hand-drawn disc |
+| [`banner.svg`](reference/assets/banner.svg) | Black obsidian minimal banner | static, matte slate, flat terminal card |
 | [`schema.svg`](reference/assets/schema.svg) | The six-table ER diagram | boxes spring in, FK lines draw themselves, packets travel along them, junction table breathes |
 | [`codeeditor.svg`](reference/assets/codeeditor.svg) | Editor typing `CREATE TABLE dbo.Country` | line-by-line typewriter, caret tracks each line, minimap viewport slides, success toast pops |
 | [`gitlog.svg`](reference/assets/gitlog.svg) | `git log --graph`, then recovering `SALES.sql` | commits slide up the spine, dashed spine marches, glow breathes |
