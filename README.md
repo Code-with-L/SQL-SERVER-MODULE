@@ -4,11 +4,11 @@
   <img src="reference/assets/banner.svg" alt="Microsoft SQL Server — black obsidian abstract banner" width="900">
 </p>
 
-![SQL Server](https://img.shields.io/badge/SQL%20Server-2025-CC2927?style=for-the-badge&logo=microsoftsqlserver)
-![Edition](https://img.shields.io/badge/Edition-Enterprise%20Developer-0F6CBD?style=for-the-badge)
-![Auth](https://img.shields.io/badge/Auth-Windows-0078D4?style=for-the-badge)
-![Manuals](https://img.shields.io/badge/manuals-4%20PDFs%20converted-512BD4?style=for-the-badge)
-![Course](https://img.shields.io/badge/course-in%20progress-FFB000?style=for-the-badge)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-2025-1a2130?style=for-the-badge&labelColor=0d1017&logo=microsoftsqlserver&logoColor=8fa2c8)
+![Edition](https://img.shields.io/badge/Edition-Enterprise%20Developer-1a2130?style=for-the-badge&labelColor=0d1017)
+![Auth](https://img.shields.io/badge/Auth-Windows%20Authentication-1a2130?style=for-the-badge&labelColor=0d1017)
+![Manuals](https://img.shields.io/badge/Manuals-4%20converted-1a2130?style=for-the-badge&labelColor=0d1017)
+![Course](https://img.shields.io/badge/Course-In%20Progress-374a6e?style=for-the-badge&labelColor=0d1017)
 
 </div>
 
