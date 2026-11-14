@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://www.microsoft.com/en-us/sql-server"><img src="https://img.shields.io/badge/SQL%20Server-2025-1a2130?style=for-the-badge&labelColor=0d1017&logo=microsoftsqlserver&logoColor=8fa2c8" alt="SQL Server 2025 - opens the Microsoft SQL Server site"></a>
-  <img src="https://img.shields.io/badge/Edition-Enterprise%20Developer-1a2130?style=for-the-badge&labelColor=0d1017" alt="Edition: Enterprise Developer">
+  <a href="https://www.microsoft.com/en/sql-server/sql-server-downloads"><img src="https://img.shields.io/badge/Edition-Enterprise%20Developer-1a2130?style=for-the-badge&labelColor=0d1017" alt="Edition: Enterprise Developer - opens Microsoft SQL Server downloads"></a>
   <a href="https://learn.microsoft.com/en-us/sql/relational-databases/security/choose-an-authentication-mode?view=sql-server-ver17"><img src="https://img.shields.io/badge/Auth-Windows%20Authentication-1a2130?style=for-the-badge&labelColor=0d1017" alt="Auth: Windows - opens Microsoft Learn on authentication modes"></a>
   <a href="https://github.com/Code-with-L/SQL-SERVER-MODULE/tree/main/reference/notes"><img src="https://img.shields.io/badge/Manuals-4%20converted-1a2130?style=for-the-badge&labelColor=0d1017" alt="Manuals - opens the course notes folder"></a>
   <a href="https://github.com/Code-with-L/SQL-SERVER-MODULE/tree/main/practice"><img src="https://img.shields.io/badge/Course-In%20Progress-374a6e?style=for-the-badge&labelColor=0d1017" alt="Course - opens the practice folder"></a>
