@@ -5,7 +5,7 @@
 ### *A guided walkthrough of Microsoft SQL Server — administration, tables, snapshots, replication & performance.*
 
 <p align="center">
-  <img src="reference/assets/banner.svg" alt="SQL Server Module — animated terminal showing instance details" width="900">
+  <img src="reference/assets/banner.svg" alt="Microsoft SQL Server — black obsidian abstract banner" width="900">
 </p>
 
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2025-CC2927?style=for-the-badge&logo=microsoftsqlserver)
@@ -214,7 +214,7 @@ home.**
 
 | Asset | What it shows | Animations |
 |---|---|---|
-| [`banner.svg`](reference/assets/banner.svg) | Black obsidian minimal banner | static, matte slate, flat terminal card |
+| [`banner.svg`](reference/assets/banner.svg) | Microsoft SQL Server — black obsidian abstract banner | one curved obsidian surface, single silver edge-light, grain, just the wordmark |
 | [`schema.svg`](reference/assets/schema.svg) | The six-table ER diagram | boxes spring in, FK lines draw themselves, packets travel along them, junction table breathes |
 | [`codeeditor.svg`](reference/assets/codeeditor.svg) | Editor typing `CREATE TABLE dbo.Country` | line-by-line typewriter, caret tracks each line, minimap viewport slides, success toast pops |
 | [`gitlog.svg`](reference/assets/gitlog.svg) | `git log --graph`, then recovering `SALES.sql` | commits slide up the spine, dashed spine marches, glow breathes |
