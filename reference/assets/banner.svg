@@ -1,94 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="100%" height="360" role="img"
-     aria-label="SQL Server Module: black obsidian minimal banner">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="100%" height="360" role="img" aria-label="Microsoft SQL Server: black obsidian abstract banner">
   <defs>
-    <linearGradient id="obsidian" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0b0e13"/>
-      <stop offset="55%" stop-color="#10141c"/>
-      <stop offset="100%" stop-color="#080a0f"/>
-    </linearGradient>
-    <linearGradient id="sqlAccent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#7da2ff"/>
-      <stop offset="100%" stop-color="#b19aff"/>
-    </linearGradient>
-    <linearGradient id="discG" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#c9d6ff"/>
-      <stop offset="55%" stop-color="#6e7cff"/>
-      <stop offset="100%" stop-color="#3b4bd8"/>
-    </linearGradient>
-    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0%" stop-color="#7da2ff" stop-opacity="0.22"/>
-      <stop offset="60%" stop-color="#7da2ff" stop-opacity="0.06"/>
-      <stop offset="100%" stop-color="#7da2ff" stop-opacity="0"/>
+    <radialGradient id="void" cx="0.5" cy="0.5" r="0.75">
+      <stop offset="0%" stop-color="#1b1e24"/>
+      <stop offset="55%" stop-color="#0a0b0e"/>
+      <stop offset="100%" stop-color="#000000"/>
     </radialGradient>
+
+    <linearGradient id="foldSheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="48%" stop-color="#9aa3b2" stop-opacity="0.55"/>
+      <stop offset="52%" stop-color="#d6dbe4" stop-opacity="0.85"/>
+      <stop offset="58%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="soften" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14"/>
+      <feColorMatrix values="0 0 0 0 0.72  0 0 0 0 0.76  0 0 0 0 0.82  0 0 0 0.62 0"/>
+    </filter>
+
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.85  0 0 0 0 0.87  0 0 0 0 0.90  0 0 0 0.055 0"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+
     <clipPath id="frame"><rect x="0" y="0" width="900" height="360" rx="14"/></clipPath>
   </defs>
 
   <g clip-path="url(#frame)">
-    <rect width="900" height="360" fill="url(#obsidian)"/>
+    <rect width="900" height="360" fill="url(#void)"/>
 
-    <!-- one soft halo behind the database mark: obsidian mineral glow -->
-    <ellipse cx="196" cy="178" rx="150" ry="112" fill="url(#halo)"/>
+    <!-- deep darkness pooling in the corners -->
+    <ellipse cx="700" cy="330" rx="380" ry="200" fill="#000" opacity=".55"/>
+    <ellipse cx="80" cy="20" rx="330" ry="180" fill="#000" opacity=".5"/>
 
-    <!-- hairline light sweep, almost invisible -->
-    <rect x="0" y="168" width="900" height="1" fill="#7da2ff" opacity="0.10"/>
+    <!-- THE obsidian fold: one continuous curved surface.
+         Drawn as a wide, soft band so the highlights read as a polished edge. -->
+    <path d="M -40 320
+             C 180 320, 320 210, 470 190
+             C 600 172, 700 250, 940 250
+             L 940 360 L -40 360 Z"
+          fill="#0b0c0f"/>
 
-    <!-- ============ database mark: minimal, matte black ============ -->
-    <g>
-      <!-- concentric etch rings -->
-      <circle cx="196" cy="178" r="86" fill="none" stroke="#3b425a" stroke-width="1.2"/>
-      <circle cx="196" cy="178" r="104" fill="none" stroke="#232a3c" stroke-width="1" stroke-dasharray="2 10" opacity=".7"/>
-      <circle cx="196" cy="178" r="70" fill="none" stroke="#6e7cff" stroke-width="1.4" opacity=".55"/>
+    <!-- soft ambient light grazing that fold (the silver edge) -->
+    <path d="M -40 320
+             C 180 320, 320 210, 470 190
+             C 600 172, 700 250, 940 250
+             L 940 258
+             C 700 258, 600 180, 470 198
+             C 320 218, 180 328, -40 328 Z"
+          fill="url(#foldSheen)" filter="url(#soften)"/>
 
-      <!-- deep slate cylinder -->
-      <ellipse cx="196" cy="146" rx="44" ry="15" fill="url(#discG)"/>
-      <path d="M152 146 v56 a44 15 0 0 0 88 0 v-56 z" fill="#151a26" stroke="#6e7cff" stroke-width="1.6"/>
-      <path d="M152 146 v56 a44 15 0 0 0 88 0 v-56" fill="none" stroke="#aabfff" stroke-width="1.2"/>
-      <ellipse cx="196" cy="146" rx="44" ry="15" fill="none" stroke="#c9d6ff" stroke-width="1.6"/>
-      <path d="M152 168 a44 15 0 0 0 88 0" fill="none" stroke="#3f66ff" stroke-width="1" opacity=".5"/>
-      <path d="M152 188 a44 15 0 0 0 88 0" fill="none" stroke="#3f66ff" stroke-width="1" opacity=".35"/>
-      <path d="M172 160 h48" stroke="#e6ecff" stroke-width="2" stroke-linecap="round" opacity=".72"/>
-      <path d="M176 180 h40" stroke="#aabfff" stroke-width="2" stroke-linecap="round" opacity=".4"/>
+    <!-- faint cool shadow under the fold lip -->
+    <path d="M -40 328
+             C 180 328, 320 218, 470 198
+             C 600 180, 700 258, 940 258
+             L 940 300
+             C 700 300, 600 220, 470 236
+             C 320 256, 180 340, -40 340 Z"
+          fill="#000" opacity=".45"/>
 
-      <!-- small status dot -->
-      <circle cx="196" cy="136" r="4.5" fill="#5eead4"/>
-      <circle cx="196" cy="136" r="11" fill="none" stroke="#5eead4" stroke-width="1" opacity=".35"/>
-    </g>
+    <!-- a second, quieter high tone lower-left so the plane feels three-dimensional -->
+    <path d="M -40 356
+             C 240 356, 430 312, 620 302
+             C 760 295, 860 316, 940 318
+             L 940 360 L -40 360 Z"
+          fill="#12141a" opacity=".6"/>
 
-    <!-- ============ title, restrained sans ============ -->
-    <g>
-      <text x="300" y="158" font-family="'Segoe UI',Arial,sans-serif" font-size="46" font-weight="700" letter-spacing="2.5" fill="#edf1ff">
-        SQL <tspan fill="url(#sqlAccent)">SERVER</tspan>
-      </text>
-      <text x="302" y="188" font-family="'Segoe UI',Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="11" fill="#8fa2c8">
-        MODULE
-      </text>
-      <rect x="302" y="204" width="74" height="1.6" fill="url(#sqlAccent)"/>
-    </g>
+    <!-- a thin, cooler bright rim along the secondary edge -->
+    <path d="M -40 356
+             C 240 356, 430 312, 620 302
+             C 760 295, 860 316, 940 318" fill="none" stroke="#9aa3b2" stroke-width="1.4" opacity=".35"/>
 
-    <!-- ============ tiny terminal card, flat and quiet ============ -->
-    <g>
-      <rect x="302" y="228" width="540" height="84" rx="10" fill="#0d1117" stroke="#232a3a" stroke-width="1"/>
-      <circle cx="326" cy="254" r="5" fill="#ff5f57"/>
-      <circle cx="346" cy="254" r="5" fill="#febc2e"/>
-      <circle cx="366" cy="254" r="5" fill="#28c840"/>
+    <!-- grain over everything, like polished stone -->
+    <rect width="900" height="360" fill="transparent" filter="url(#grain)"/>
 
-      <text x="420" y="258" font-family="'Cascadia Mono',Consolas,monospace" font-size="11.5" fill="#8a94ad">
-        StudentRecordsDB
-      </text>
+    <!-- ================= ONLY the wordmark ================= -->
 
-      <text x="326" y="288" font-family="'Cascadia Mono',Consolas,monospace" font-size="12" fill="#e6edff">
-        <tspan fill="#7ee787">➜</tspan> <tspan fill="#9ec1ff">sqlcmd</tspan> -S localhost -E
-      </text>
-      <text x="326" y="306" font-family="'Cascadia Mono',Consolas,monospace" font-size="11" fill="#7c869e">
-        Instance MSSQLSERVER (default)  ·  Windows Authentication
-      </text>
-    </g>
+    <text x="70" y="158" font-family="'Segoe UI',Arial,Helvetica,sans-serif"
+          font-size="44" font-weight="200" letter-spacing="6" fill="#e8ebf0">MICROSOFT</text>
 
-    <!-- ============ whisper footer ============ -->
-    <text x="450" y="338" font-family="'Segoe UI',Arial,sans-serif" font-size="10.5" letter-spacing="2.2" fill="#5f6880" text-anchor="middle">
-      editions · instances · data types · tables · snapshots · replication · locking
-    </text>
+    <text x="70" y="216" font-family="'Segoe UI',Arial,Helvetica,sans-serif"
+          font-size="58" font-weight="600" letter-spacing="2.5" fill="#ffffff">SQL SERVER</text>
+
+    <rect x="72" y="236" width="120" height="1.4" fill="#5c6678"/>
+
+    <text x="72" y="266" font-family="'Segoe UI',Arial,Helvetica,sans-serif"
+          font-size="11.5" letter-spacing="5.5" fill="#8b93a3">MODULE</text>
   </g>
 
-  <rect x=".7" y=".7" width="898.6" height="358.6" rx="13.3" fill="none" stroke="#202634" stroke-width="1.4"/>
+  <rect x=".7" y=".7" width="898.6" height="358.6" rx="13.3" fill="none" stroke="#1d212b" stroke-width="1.4"/>
 </svg>
