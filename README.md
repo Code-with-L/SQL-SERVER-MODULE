@@ -1,9 +1,5 @@
 <div align="center">
 
-# 🗄️ SQL SERVER MODULE
-
-### *A guided walkthrough of Microsoft SQL Server — administration, tables, snapshots, replication & performance.*
-
 <p align="center">
   <img src="reference/assets/banner.svg" alt="Microsoft SQL Server — black obsidian abstract banner" width="900">
 </p>
