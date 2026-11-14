@@ -6,24 +6,20 @@
       <stop offset="100%" stop-color="#000000"/>
     </radialGradient>
 
-    <linearGradient id="foldSheen" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
-      <stop offset="48%" stop-color="#9aa3b2" stop-opacity="0.55"/>
-      <stop offset="52%" stop-color="#d6dbe4" stop-opacity="0.85"/>
-      <stop offset="58%" stop-color="#ffffff" stop-opacity="0.32"/>
+    <!-- silver edge-light, now drawn as a soft vertical gradient band: no blur filter -->
+    <linearGradient id="foldSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="35%"  stop-color="#c6cdd8" stop-opacity="0.55"/>
+      <stop offset="50%"  stop-color="#e9edf3" stop-opacity="0.85"/>
+      <stop offset="65%"  stop-color="#aeb6c3" stop-opacity="0.4"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
 
-    <filter id="soften" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="14"/>
-      <feColorMatrix values="0 0 0 0 0.72  0 0 0 0 0.76  0 0 0 0 0.82  0 0 0 0.62 0"/>
-    </filter>
-
-    <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.85  0 0 0 0 0.87  0 0 0 0 0.90  0 0 0 0.055 0"/>
-      <feComposite in2="SourceGraphic" operator="over"/>
-    </filter>
+    <!-- faint vignette, also pure gradient -->
+    <radialGradient id="vignette" cx="0.5" cy="0.55" r="0.72">
+      <stop offset="0%"  stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
+    </radialGradient>
 
     <clipPath id="frame"><rect x="0" y="0" width="900" height="360" rx="14"/></clipPath>
   </defs>
@@ -35,22 +31,21 @@
     <ellipse cx="700" cy="330" rx="380" ry="200" fill="#000" opacity=".55"/>
     <ellipse cx="80" cy="20" rx="330" ry="180" fill="#000" opacity=".5"/>
 
-    <!-- THE obsidian fold: one continuous curved surface.
-         Drawn as a wide, soft band so the highlights read as a polished edge. -->
+    <!-- THE obsidian fold: one continuous curved surface -->
     <path d="M -40 320
              C 180 320, 320 210, 470 190
              C 600 172, 700 250, 940 250
              L 940 360 L -40 360 Z"
           fill="#0b0c0f"/>
 
-    <!-- soft ambient light grazing that fold (the silver edge) -->
+    <!-- silver edge-light along the fold -->
     <path d="M -40 320
              C 180 320, 320 210, 470 190
              C 600 172, 700 250, 940 250
              L 940 258
              C 700 258, 600 180, 470 198
              C 320 218, 180 328, -40 328 Z"
-          fill="url(#foldSheen)" filter="url(#soften)"/>
+          fill="url(#foldSheen)" opacity=".9"/>
 
     <!-- faint cool shadow under the fold lip -->
     <path d="M -40 328
@@ -61,20 +56,20 @@
              C 320 256, 180 340, -40 340 Z"
           fill="#000" opacity=".45"/>
 
-    <!-- a second, quieter high tone lower-left so the plane feels three-dimensional -->
+    <!-- second, quieter high tone lower-left -->
     <path d="M -40 356
              C 240 356, 430 312, 620 302
              C 760 295, 860 316, 940 318
              L 940 360 L -40 360 Z"
           fill="#12141a" opacity=".6"/>
 
-    <!-- a thin, cooler bright rim along the secondary edge -->
+    <!-- cooler bright rim along the secondary edge -->
     <path d="M -40 356
              C 240 356, 430 312, 620 302
              C 760 295, 860 316, 940 318" fill="none" stroke="#9aa3b2" stroke-width="1.4" opacity=".35"/>
 
-    <!-- grain over everything, like polished stone -->
-    <rect width="900" height="360" fill="transparent" filter="url(#grain)"/>
+    <!-- soft vignette, no turbulence needed -->
+    <rect width="900" height="360" fill="url(#vignette)"/>
 
     <!-- ================= ONLY the wordmark ================= -->
 
